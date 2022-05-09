@@ -34,7 +34,7 @@ public class Job {
 
     private String experience;
 
-    @Column(name = "apply_link")
+    @Column(name = "apply_link", length = 1000)
     private String applyLink;
 
     public Job() {
