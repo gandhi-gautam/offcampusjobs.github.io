@@ -1,4 +1,8 @@
 package co.offcampusjobs.business.impl;
 
-public class JobBusinessImpl {
+import co.offcampusjobs.business.JobBusiness;
+import org.springframework.stereotype.Component;
+
+@Component
+public class JobBusinessImpl implements JobBusiness {
 }

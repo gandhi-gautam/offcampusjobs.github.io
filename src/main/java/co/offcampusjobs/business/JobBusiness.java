@@ -1,5 +1,4 @@
 package co.offcampusjobs.business;
 
-public interface
-JobBusiness {
+public interface JobBusiness {
 }
