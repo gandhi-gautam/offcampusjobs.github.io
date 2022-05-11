@@ -1,5 +1,7 @@
 package co.offcampusjobs.business;
 
-public interface
-JobBusiness {
+import co.offcampusjobs.dto.JobDto;
+
+public interface JobBusiness {
+    public JobDto saveNewJob(JobDto jobDto);
 }
