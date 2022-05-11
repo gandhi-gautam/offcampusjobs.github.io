@@ -1,4 +1,4 @@
 package co.offcampusjobs.service;
 
-public class JobService {
+public interface JobService {
 }
