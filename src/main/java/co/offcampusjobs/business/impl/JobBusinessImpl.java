@@ -19,8 +19,7 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public JobDto saveNewJob(JobDto jobDto) {
         jobDto.setImageUrl(changeImageURL(jobDto.getImageUrl()));
-        jobService.saveJob(jobDto);
-        return null;
+        return jobService.saveJob(jobDto);
     }
 
     /**
