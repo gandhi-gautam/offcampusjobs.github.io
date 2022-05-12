@@ -2,7 +2,6 @@ package co.offcampusjobs.business.impl;
 
 import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.dto.JobDto;
-import co.offcampusjobs.model.Job;
 import co.offcampusjobs.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +19,7 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public JobDto saveNewJob(JobDto jobDto) {
         jobDto.setImageUrl(changeImageURL(jobDto.getImageUrl()));
+        jobService.saveJob(jobDto);
         return null;
     }
 
