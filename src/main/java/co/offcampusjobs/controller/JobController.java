@@ -6,10 +6,13 @@ import co.offcampusjobs.model.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
 
 @Controller
 public class JobController {
@@ -34,7 +37,11 @@ public class JobController {
      */
     @ResponseBody
     @PostMapping("/job")
-    public JobDto saveJob(@ModelAttribute JobDto jobDto){
+    public JobDto saveJob(@Valid @ModelAttribute JobDto jobDto, BindingResult result){
+        if(result.hasErrors()){
+            System.out.println("form has errors");
+            return null;
+        }
         return jobBusiness.saveNewJob(jobDto);
     }
 }
