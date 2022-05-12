@@ -39,7 +39,7 @@ public class JobController {
     @PostMapping("/job")
     public JobDto saveJob(@Valid @ModelAttribute JobDto jobDto, BindingResult result){
         if(result.hasErrors()){
-            System.out.println("form has errors");
+            System.out.println(result);
             return null;
         }
         return jobBusiness.saveNewJob(jobDto);
