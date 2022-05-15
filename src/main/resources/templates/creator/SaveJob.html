@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+</head>
+<body>
+    <form action="#" th:action="@{/job}" th:object="${jobDTO}" method="post">
+        <table border="1">
+            <tr>
+                <td><label>Company Name: </label></td>
+                <td><input type="text" th:field="*{companyName}" required/></td>
+            </tr>
+
+            <tr>
+                <td><label>Drive Type: </label></td>
+                <td><input type="text" th:field="*{driveType}" placeholder="Internship, Full Time" required/></td>
+            </tr>
+
+            <tr>
+                <td><label>Profile Name: </label></td>
+                <td><input type="text" th:field="*{profileName}" required/></td>
+            </tr>
+
+            <tr>
+                <td><label>Qualification: </label></td>
+                <td><input type="text" th:field="*{qualification}" placeholder="B.Tech, MCA, Msc, 10th" required/></td>
+            </tr>
+
+            <tr>
+                <td><label>Image Url: </label></td>
+                <td><input type="text" th:field="*{imageUrl}"
+                           placeholder="https://drive.google.com/file/d/1etciEddMVohQSKBjTRvIkB4a5HHq0rq6/view?usp=sharing"
+                           required/></td>
+            </tr>
+
+            <tr>
+                <td><label>Location: </label></td>
+                <td><input type="text" th:field="*{location}" placeholder="Bangalore, Delhi, Pune etc." required/></td>
+            </tr>
+
+            <tr>
+                <td><label>Salary: </label></td>
+                <td><input type="text" th:field="*{salary}" placeholder="4 - 7 LPA" required/></td>
+            </tr>
+
+            <tr>
+                <td><label>Experience: </label></td>
+                <td><input type="text" th:field="*{experience}" placeholder="0 - 2 yrs" required/></td>
+            </tr>
+
+            <tr>
+                <td><label>Apply Link: </label></td>
+                <td><input type="text" th:field="*{applyLink}" required/></td>
+            </tr>
+
+            <tr>
+                <td><input type="submit" value="Submit" /></td>
+                <td><input type="reset" value="Reset" /></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
