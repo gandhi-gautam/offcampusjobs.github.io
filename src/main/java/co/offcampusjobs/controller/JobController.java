@@ -43,15 +43,15 @@ public class JobController {
     }
 
     /**
-     * Scope : [This method returns all the off-campus-jobs from database]
+     * Scope : [This method returns all the off-campus-jobs from database, It will trigger when url is /{drive type}]
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 15-05-2022]
      */
-    @ResponseBody
     @GetMapping("/{drive}")
-    public List<JobDto> viewJobListPage(@PathVariable("drive") String drive){
+    public String viewJobListPage(@PathVariable("drive") String drive, Model model){
         if(drive.equals("off-campus-jobs")){
-            return jobBusiness.getOffCampusJobs();
+            model.addAttribute("jobs", jobBusiness.getOffCampusJobs());
+            return "viewer/ViewJobList";
         }
         return null;
     }
