@@ -20,7 +20,7 @@ public class JobDto {
     @NotEmpty(message = "Company Name cannot not be empty")
     private String companyName;
 
-    @NotEmpty(message = "Company Name cannot not be empty")
+    @NotEmpty(message = "Drive Type cannot not be empty")
     private String driveType;
 
     @NotEmpty(message = "Profile Name cannot not be empty")
