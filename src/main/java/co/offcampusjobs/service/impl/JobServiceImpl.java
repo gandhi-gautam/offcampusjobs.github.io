@@ -34,15 +34,7 @@ public class JobServiceImpl implements JobService {
     private JobDto convertTOJobDto(Job job) {
         JobDto jobDto = new JobDto();
         jobDto.setJobId(job.getJobId());
-        jobDto.setCompanyName(job.getCompanyName());
-        jobDto.setDriveType(job.getDriveType());
-        jobDto.setProfileName(job.getProfileName());
-        jobDto.setQualification(job.getQualification());
-        jobDto.setImageUrl(job.getImageUrl());
-        jobDto.setLocation(job.getLocation());
-        jobDto.setSalary(job.getSalary());
-        jobDto.setExperience(job.getExperience());
-        jobDto.setApplyLink(job.getApplyLink());
+        jobDto.setCreatedAt(job.getCreatedAt());
         return jobDto;
     }
 
