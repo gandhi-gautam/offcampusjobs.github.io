@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -50,6 +51,9 @@ public class JobController {
     @GetMapping("/{drive}")
     public String viewJobListPage(@PathVariable("drive") String drive, Model model){
         if(drive.equals("off-campus-jobs")){
+            model.addAttribute("title", "OCJ - off-campus-jobs");
+            model.addAttribute("drive", "Off-Campus-Jobs");
+            model.addAttribute("year", LocalDate.now().getYear());
             model.addAttribute("jobs", jobBusiness.getOffCampusJobs());
             return "viewer/ViewJobList";
         }
