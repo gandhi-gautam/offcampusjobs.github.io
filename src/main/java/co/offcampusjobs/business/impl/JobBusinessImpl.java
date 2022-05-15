@@ -6,6 +6,8 @@ import co.offcampusjobs.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class JobBusinessImpl implements JobBusiness {
     @Autowired
@@ -20,6 +22,16 @@ public class JobBusinessImpl implements JobBusiness {
     public JobDto saveNewJob(JobDto jobDto) {
         jobDto.setImageUrl(changeImageURL(jobDto.getImageUrl()));
         return jobService.saveJob(jobDto);
+    }
+
+    /**
+     * Scope : [This method returns all the off-campus-jobs from database]
+     * Author : [Gautam Gandhi]
+     * Comment : [refactoring date: 15-05-2022]
+     */
+    @Override
+    public List<JobDto> getOffCampusJobs() {
+        return jobService.getOffCampusJobs();
     }
 
     /**

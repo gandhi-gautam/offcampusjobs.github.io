@@ -2,17 +2,14 @@ package co.offcampusjobs.controller;
 
 import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.dto.JobDto;
-import co.offcampusjobs.model.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class JobController {
@@ -43,5 +40,19 @@ public class JobController {
             return null;
         }
         return jobBusiness.saveNewJob(jobDto);
+    }
+
+    /**
+     * Scope : [This method returns all the off-campus-jobs from database]
+     * Author : [Gautam Gandhi]
+     * Comment : [refactoring date: 15-05-2022]
+     */
+    @ResponseBody
+    @GetMapping("/{drive}")
+    public List<JobDto> viewJobListPage(@PathVariable("drive") String drive){
+        if(drive.equals("off-campus-jobs")){
+            return jobBusiness.getOffCampusJobs();
+        }
+        return null;
     }
 }
