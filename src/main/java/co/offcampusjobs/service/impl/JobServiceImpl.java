@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -27,6 +29,21 @@ public class JobServiceImpl implements JobService {
     }
 
     /**
+     * Scope : [This method returns all the off-campus-jobs from database]
+     * Author : [Gautam Gandhi]
+     * Comment : [refactoring date: 15-05-2022]
+     */
+    @Override
+    public List<JobDto> getOffCampusJobs() {
+        List<Job> jobs = jobRepository.findAllByOrderByCreatedAtDesc();
+        List<JobDto> jobDtos = new ArrayList<>();
+        for(Job job: jobs){
+            jobDtos.add(convertTOJobDto(job));
+        }
+        return jobDtos;
+    }
+
+    /**
      * Scope : [This method Converts Job Entity to JobDto object]
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 11-05-2022]
@@ -35,6 +52,17 @@ public class JobServiceImpl implements JobService {
         JobDto jobDto = new JobDto();
         jobDto.setJobId(job.getJobId());
         jobDto.setCreatedAt(job.getCreatedAt());
+        if(jobDto.getCompanyName() == null){
+            jobDto.setCompanyName(job.getCompanyName());
+            jobDto.setDriveType(job.getDriveType());
+            jobDto.setProfileName(job.getProfileName());
+            jobDto.setQualification(job.getQualification());
+            jobDto.setImageUrl(job.getImageUrl());
+            jobDto.setLocation(job.getLocation());
+            jobDto.setSalary(job.getSalary());
+            jobDto.setExperience(job.getExperience());
+            jobDto.setApplyLink(job.getApplyLink());
+        }
         return jobDto;
     }
 
