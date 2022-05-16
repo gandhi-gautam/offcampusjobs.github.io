@@ -85,4 +85,9 @@ public class JobServiceImpl implements JobService {
         job.setApplyLink(jobDto.getApplyLink());
         return job;
     }
+
+    @Override
+    public JobDto getJobDto(long id){
+        return convertTOJobDto(jobRepository.getById(id));
+    }
 }

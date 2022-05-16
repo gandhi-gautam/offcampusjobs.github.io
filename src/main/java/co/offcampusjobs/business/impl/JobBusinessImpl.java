@@ -42,4 +42,9 @@ public class JobBusinessImpl implements JobBusiness {
     private String changeImageURL(String url){
         return "https://drive.google.com/uc?export=view&id=" + url.split("/")[5];
     }
+
+    @Override
+    public JobDto getJob(long id){
+        return jobService.getJobDto(id);
+    }
 }
