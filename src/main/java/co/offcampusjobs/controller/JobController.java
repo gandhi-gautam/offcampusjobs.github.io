@@ -62,10 +62,7 @@ public class JobController {
 
     @GetMapping("/{drive}/{id}")
     public String getJob(@PathVariable("drive") String drive, @PathVariable("id") long id, Model model){
-        if (drive.equals("off-campus-jobs")){
-            model.addAttribute("job", jobBusiness.getJob(id));
-            return "viewer/ViewJob";
-        }
-        return null;
+        model.addAttribute("job", jobBusiness.getJob(id));
+        return "viewer/ViewJob";
     }
 }
