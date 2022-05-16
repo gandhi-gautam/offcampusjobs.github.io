@@ -2,11 +2,14 @@ package co.offcampusjobs.controller;
 
 import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.dto.JobDto;
+import co.offcampusjobs.utlis.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import co.offcampusjobs.utlis.Constants.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -62,6 +65,8 @@ public class JobController {
 
     @GetMapping("/{drive}/{id}")
     public String getJob(@PathVariable("drive") String drive, @PathVariable("id") long id, Model model){
+        JobDto jobDto = jobBusiness.getJob(id);
+        model.addAttribute("title", jobDto.getCompanyName());
         model.addAttribute("job", jobBusiness.getJob(id));
         return "viewer/ViewJob";
     }
