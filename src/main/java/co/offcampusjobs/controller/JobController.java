@@ -63,7 +63,7 @@ public class JobController {
     public String getJob(@PathVariable("drive") String drive, @PathVariable("id") long id, Model model){
         JobDto jobDto = jobBusiness.getJob(id);
         model.addAttribute("title", jobDto.getCompanyName());
-        model.addAttribute("job", jobBusiness.getJob(id));
+        model.addAttribute("job", jobDto);
         return "viewer/ViewJob";
     }
 }
