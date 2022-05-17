@@ -43,6 +43,11 @@ public class JobBusinessImpl implements JobBusiness {
         return "https://drive.google.com/uc?export=view&id=" + url.split("/")[5];
     }
 
+    /**
+     * Scope : [This method returns a job for a particular Id]
+     * Author : [Sarthak Singh]
+     * Comment : [refactoring date: 17-05-2022]
+     */
     @Override
     public JobDto getJob(long id){
         return jobService.getJobDto(id);
