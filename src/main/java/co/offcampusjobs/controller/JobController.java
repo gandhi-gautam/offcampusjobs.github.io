@@ -51,7 +51,7 @@ public class JobController {
     public String viewJobListPage(@PathVariable("drive") String drive, Model model){
         if(drive.equals("off-campus-jobs")){
             model.addAttribute("title", "OCJ - off-campus-jobs");
-            model.addAttribute("drive", "Off-Campus-Jobs");
+            model.addAttribute("drive", "off-campus-jobs");
             model.addAttribute("year", LocalDate.now().getYear());
             model.addAttribute("jobs", jobBusiness.getOffCampusJobs());
             return "viewer/ViewJobList";
@@ -62,7 +62,7 @@ public class JobController {
     @GetMapping("/{drive}/{id}")
     public String getJob(@PathVariable("drive") String drive, @PathVariable("id") long id, Model model){
         JobDto jobDto = jobBusiness.getJob(id);
-        model.addAttribute("title", jobDto.getCompanyName());
+        model.addAttribute("title", "Off Campus Jobs - "+jobDto.getCompanyName() + " " + jobDto.getProfileName());
         model.addAttribute("job", jobDto);
         return "viewer/ViewJob";
     }
