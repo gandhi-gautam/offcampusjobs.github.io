@@ -85,4 +85,14 @@ public class JobServiceImpl implements JobService {
         job.setApplyLink(jobDto.getApplyLink());
         return job;
     }
+
+    /**
+     * Scope : [This method returns a job for a particular Id]
+     * Author : [Sarthak Singh]
+     * Comment : [refactoring date: 17-05-2022]
+     */
+    @Override
+    public JobDto getJobDto(long id){
+        return convertTOJobDto(jobRepository.getById(id));
+    }
 }

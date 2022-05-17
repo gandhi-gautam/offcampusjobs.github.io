@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 public class JobController {
@@ -52,11 +51,24 @@ public class JobController {
     public String viewJobListPage(@PathVariable("drive") String drive, Model model){
         if(drive.equals("off-campus-jobs")){
             model.addAttribute("title", "OCJ - off-campus-jobs");
-            model.addAttribute("drive", "Off-Campus-Jobs");
+            model.addAttribute("drive", "off-campus-jobs");
             model.addAttribute("year", LocalDate.now().getYear());
             model.addAttribute("jobs", jobBusiness.getOffCampusJobs());
             return "viewer/ViewJobList";
         }
         return null;
+    }
+
+    /**
+     * Scope : [This method returns a job for a particular Id]
+     * Author : [Sarthak Singh]
+     * Comment : [refactoring date: 17-05-2022]
+     */
+    @GetMapping("/{drive}/{id}")
+    public String getJob(@PathVariable("drive") String drive, @PathVariable("id") long id, Model model){
+        JobDto jobDto = jobBusiness.getJob(id);
+        model.addAttribute("title", "Off Campus Jobs - "+jobDto.getCompanyName() + " " + jobDto.getProfileName());
+        model.addAttribute("job", jobDto);
+        return "viewer/ViewJob";
     }
 }

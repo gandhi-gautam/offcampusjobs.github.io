@@ -8,4 +8,6 @@ public interface JobBusiness {
     public JobDto saveNewJob(JobDto jobDto);
 
     List<JobDto> getOffCampusJobs();
+
+    JobDto getJob(long id);
 }

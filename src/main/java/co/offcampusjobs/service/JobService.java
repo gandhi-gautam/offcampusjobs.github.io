@@ -8,4 +8,6 @@ public interface JobService {
     JobDto saveJob(JobDto jobDto);
 
     List<JobDto> getOffCampusJobs();
+
+    JobDto getJobDto(long id);
 }
