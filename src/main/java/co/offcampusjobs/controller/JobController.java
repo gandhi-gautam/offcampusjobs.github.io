@@ -2,17 +2,14 @@ package co.offcampusjobs.controller;
 
 import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.dto.JobDto;
-import co.offcampusjobs.model.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @Controller
 public class JobController {
@@ -43,5 +40,35 @@ public class JobController {
             return null;
         }
         return jobBusiness.saveNewJob(jobDto);
+    }
+
+    /**
+     * Scope : [This method returns all the off-campus-jobs from database, It will trigger when url is /{drive type}]
+     * Author : [Gautam Gandhi]
+     * Comment : [refactoring date: 15-05-2022]
+     */
+    @GetMapping("/{drive}")
+    public String viewJobListPage(@PathVariable("drive") String drive, Model model){
+        if(drive.equals("off-campus-jobs")){
+            model.addAttribute("title", "OCJ - off-campus-jobs");
+            model.addAttribute("drive", "off-campus-jobs");
+            model.addAttribute("year", LocalDate.now().getYear());
+            model.addAttribute("jobs", jobBusiness.getOffCampusJobs());
+            return "viewer/ViewJobList";
+        }
+        return null;
+    }
+
+    /**
+     * Scope : [This method returns a job for a particular Id]
+     * Author : [Sarthak Singh]
+     * Comment : [refactoring date: 17-05-2022]
+     */
+    @GetMapping("/{drive}/{id}")
+    public String getJob(@PathVariable("drive") String drive, @PathVariable("id") long id, Model model){
+        JobDto jobDto = jobBusiness.getJob(id);
+        model.addAttribute("title", "Off Campus Jobs - "+jobDto.getCompanyName() + " " + jobDto.getProfileName());
+        model.addAttribute("job", jobDto);
+        return "viewer/ViewJob";
     }
 }

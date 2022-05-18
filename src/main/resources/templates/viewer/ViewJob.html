@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${title}"></title>
+</head>
+<body>
+  <table border="1">
+    <tbody>
+      <!--Company Name-->
+      <tr>
+        <td>Company Name</td>
+        <td th:text="${job.companyName}"></td>
+      </tr>
+
+      <!--Profile Name-->
+      <tr>
+        <td>Profile Name</td>
+        <td th:text="${job.profileName}"></td>
+      </tr>
+
+      <!--Qualification-->
+      <tr>
+        <td>Qualification</td>
+        <td th:text="${job.qualification}"></td>
+      </tr>
+
+      <!--Location-->
+      <tr>
+        <td>Location</td>
+        <td th:text="${job.location}"></td>
+      </tr>
+
+      <!--Salary-->
+      <tr>
+        <td>Salary</td>
+        <td th:text="${job.salary}"></td>
+      </tr>
+
+      <!--Experience-->
+      <tr>
+        <td>Experience</td>
+        <td th:text="${job.experience}"></td>
+      </tr>
+
+      <!--Post Created At-->
+      <tr>
+        <td>Posted On </td>
+        <td th:text="${job.createdAt}"></td>
+      </tr>
+
+      <!--Apply Link-->
+      <tr>
+        <td>Apply Link</td>
+        <td th:text="${job.applyLink}"></td>
+      </tr>
+
+      <!--Image Url-->
+      <tr>
+        <td>Image Url</td>
+        <td th:text="${job.imageUrl}"></td>
+      </tr>
+
+      <!--Drive Type-->
+      <tr>
+        <td>Drive Type</td>
+        <td th:text="${job.driveType}"></td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
