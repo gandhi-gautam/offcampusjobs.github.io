@@ -51,5 +51,5 @@ public class Job {
     @JoinTable(name = "job_has_qualification",
                 joinColumns = @JoinColumn(name = "job_id"),
                 inverseJoinColumns = @JoinColumn(name = "qualification_id"))
-    Set<Qualification> qualifications;
+    private Set<Qualification> qualifications;
 }

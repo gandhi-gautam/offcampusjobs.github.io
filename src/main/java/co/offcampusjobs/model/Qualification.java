@@ -22,6 +22,6 @@ public class Qualification {
     private String qualificationName;
 
     @ManyToMany(mappedBy = "qualifications")
-    Set<Job> jobs;
+    private Set<Job> jobs;
 
 }
