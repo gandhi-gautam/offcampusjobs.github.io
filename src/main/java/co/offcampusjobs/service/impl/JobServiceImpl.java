@@ -5,6 +5,10 @@ import co.offcampusjobs.model.Job;
 import co.offcampusjobs.repository.JobRepository;
 import co.offcampusjobs.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,13 +38,14 @@ public class JobServiceImpl implements JobService {
      * Comment : [refactoring date: 15-05-2022]
      */
     @Override
-    public List<JobDto> getOffCampusJobs() {
-        List<Job> jobs = jobRepository.findAllByOrderByCreatedAtDesc();
-        List<JobDto> jobDtos = new ArrayList<>();
-        for(Job job: jobs){
-            jobDtos.add(convertTOJobDto(job));
-        }
-        return jobDtos;
+    public Page<JobDto> getOffCampusJobs(Pageable pageable) {
+        Page<Job> jobPage = jobRepository.findAllByOrderByCreatedAtDesc(pageable);
+        return toPageObjectDto(jobPage);
+    }
+
+    public Page<JobDto> toPageObjectDto(Page<Job> objects) {
+        Page<JobDto> dtos  = objects.map(this::convertTOJobDto);
+        return dtos;
     }
 
     /**
@@ -95,4 +100,6 @@ public class JobServiceImpl implements JobService {
     public JobDto getJobDto(long id){
         return convertTOJobDto(jobRepository.getById(id));
     }
+
+
 }

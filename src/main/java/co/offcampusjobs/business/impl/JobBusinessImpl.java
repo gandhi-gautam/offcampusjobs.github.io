@@ -4,6 +4,8 @@ import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.dto.JobDto;
 import co.offcampusjobs.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,8 +32,8 @@ public class JobBusinessImpl implements JobBusiness {
      * Comment : [refactoring date: 15-05-2022]
      */
     @Override
-    public List<JobDto> getOffCampusJobs() {
-        return jobService.getOffCampusJobs();
+    public Page<JobDto> getOffCampusJobs(Pageable pageable) {
+        return jobService.getOffCampusJobs(pageable);
     }
 
     /**
