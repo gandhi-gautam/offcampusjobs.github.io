@@ -4,6 +4,7 @@ import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.dto.JobDto;
 import co.offcampusjobs.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -54,14 +55,18 @@ public class JobController {
     @GetMapping("/{drive}/{page}")
     public String viewJobListPage(@PathVariable("drive") String drive, @PathVariable("page") Integer page, Model model){
         Pageable pageable = PageRequest.of(page, Constant.PAGE_SIZE);
+        Page<JobDto> jobDtos = null;
         if(drive.equals("off-campus-jobs")){
+            jobDtos = jobBusiness.getOffCampusJobs(pageable);
             model.addAttribute("title", "OCJ - off-campus-jobs");
             model.addAttribute("drive", "off-campus-jobs");
             model.addAttribute("year", LocalDate.now().getYear());
             model.addAttribute("jobs", jobBusiness.getOffCampusJobs(pageable));
-            return "viewer/ViewJobList";
+            model.addAttribute("totalPages", jobDtos.getTotalPages());
         }
-        return null;
+        model.addAttribute("currentPage", page);
+
+        return "viewer/ViewJobList";
     }
 
     /**
