@@ -52,7 +52,7 @@ public class JobController {
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 20-05-2022]
      */
-    @GetMapping("/{drive}/{page}")
+    @GetMapping("jobs/{drive}/{page}")
     public String viewJobListPage(@PathVariable("drive") String drive, @PathVariable("page") Integer page, Model model){
         Pageable pageable = PageRequest.of(page, Constant.PAGE_SIZE);
         Page<JobDto> jobDtos = null;
