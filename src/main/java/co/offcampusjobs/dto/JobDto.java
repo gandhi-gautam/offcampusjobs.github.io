@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Component
 @Getter
@@ -45,4 +46,6 @@ public class JobDto {
     private String applyLink;
 
     private LocalDate createdAt;
+
+    private Set<QualificationDto> qualificationDtos;
 }

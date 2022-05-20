@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -45,4 +46,10 @@ public class Job {
 
     @Column(name = "apply_link", length = 1000)
     private String applyLink;
+
+    @ManyToMany
+    @JoinTable(name = "job_has_qualification",
+                joinColumns = @JoinColumn(name = "job_id"),
+                inverseJoinColumns = @JoinColumn(name = "qualification_id"))
+    private Set<Qualification> qualifications;
 }
