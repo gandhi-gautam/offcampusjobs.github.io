@@ -48,7 +48,7 @@ public class Job {
     @Column(name = "apply_link", length = 1000)
     private String applyLink;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "job_qualification",
                 joinColumns = @JoinColumn(name = "job_id"),
                 inverseJoinColumns = @JoinColumn(name = "qualification_id"))

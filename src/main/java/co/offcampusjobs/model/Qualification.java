@@ -22,7 +22,7 @@ public class Qualification {
     @Column(name = "qualification_name")
     private String qualificationName;
 
-    @ManyToMany(mappedBy = "qualifications")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "qualifications")
     private List<Job> jobs = new ArrayList<>();
 
 }
