@@ -7,7 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -48,8 +49,8 @@ public class Job {
     private String applyLink;
 
     @ManyToMany
-    @JoinTable(name = "job_has_qualification",
+    @JoinTable(name = "job_qualification",
                 joinColumns = @JoinColumn(name = "job_id"),
                 inverseJoinColumns = @JoinColumn(name = "qualification_id"))
-    private Set<Qualification> qualifications;
+    private List<Qualification> qualifications = new ArrayList<>();
 }

@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -22,6 +23,6 @@ public class Qualification {
     private String qualificationName;
 
     @ManyToMany(mappedBy = "qualifications")
-    private Set<Job> jobs;
+    private List<Job> jobs = new ArrayList<>();
 
 }
