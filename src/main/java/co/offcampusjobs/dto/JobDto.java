@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -47,5 +49,5 @@ public class JobDto {
 
     private LocalDate createdAt;
 
-    private Set<QualificationDto> qualificationDtos;
+    private List<QualificationDto> qualificationDtos = new ArrayList<>();
 }

@@ -2,12 +2,14 @@ package co.offcampusjobs.business.impl;
 
 import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.dto.JobDto;
+import co.offcampusjobs.dto.QualificationDto;
 import co.offcampusjobs.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -23,7 +25,30 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public JobDto saveNewJob(JobDto jobDto) {
         jobDto.setImageUrl(changeImageURL(jobDto.getImageUrl()));
-        return jobService.saveJob(jobDto);
+        String qualifications = jobDto.getQualification();
+        jobDto = getQualifications(jobDto, qualifications.split(","));
+        jobDto = jobService.saveJob(jobDto);
+        jobDto.setQualification(qualifications);
+        jobDto.setQualificationDtos(null);
+        return jobDto;
+    }
+
+    /**
+     * this method split all the qualification and set int the job dto object
+     * @param jobDto
+     * @param courses
+     * @return
+     */
+    private JobDto getQualifications(JobDto jobDto, String[] courses){
+        List<QualificationDto> qualificationDtos = new ArrayList<>();
+        for(String course : courses){
+            QualificationDto qualificationDto = new QualificationDto();
+            jobDto.getQualificationDtos().add(qualificationDto);
+            qualificationDto.setQualificationName(course.trim());
+            qualificationDto.getJobDtos().add(jobDto);
+            qualificationDtos.add(qualificationDto);
+        }
+        return jobDto;
     }
 
     /**

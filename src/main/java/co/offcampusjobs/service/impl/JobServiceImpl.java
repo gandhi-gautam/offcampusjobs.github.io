@@ -1,13 +1,13 @@
 package co.offcampusjobs.service.impl;
 
 import co.offcampusjobs.dto.JobDto;
+import co.offcampusjobs.dto.QualificationDto;
 import co.offcampusjobs.model.Job;
+import co.offcampusjobs.model.Qualification;
 import co.offcampusjobs.repository.JobRepository;
 import co.offcampusjobs.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,14 @@ public class JobServiceImpl implements JobService {
      */
     @Override
     public JobDto saveJob(JobDto jobDto) {
-        Job job = jobRepository.save(convertToJobEntity(jobDto));
+        List<QualificationDto> qualificationDtos = jobDto.getQualificationDtos();
+        List<Qualification> qualifications = new ArrayList<>();
+        for(QualificationDto qualificationDto : qualificationDtos){
+            qualifications.add(new Qualification(qualificationDto));
+        }
+        Job job = convertToJobEntity(jobDto);
+        job.setQualifications(qualifications);
+        job = jobRepository.save(job);
         return convertTOJobDto(job);
     }
 
@@ -43,8 +50,13 @@ public class JobServiceImpl implements JobService {
         return toPageObjectDto(jobPage);
     }
 
-    public Page<JobDto> toPageObjectDto(Page<Job> objects) {
-        Page<JobDto> dtos  = objects.map(this::convertTOJobDto);
+    /**
+     * This method takes Pages of jobs and return pages of job dto
+     * @param jobs
+     * @return
+     */
+    private Page<JobDto> toPageObjectDto(Page<Job> jobs) {
+        Page<JobDto> dtos  = jobs.map(this::convertTOJobDto);
         return dtos;
     }
 
@@ -61,14 +73,32 @@ public class JobServiceImpl implements JobService {
             jobDto.setCompanyName(job.getCompanyName());
             jobDto.setDriveType(job.getDriveType());
             jobDto.setProfileName(job.getProfileName());
-            jobDto.setQualification(job.getQualification());
             jobDto.setImageUrl(job.getImageUrl());
             jobDto.setLocation(job.getLocation());
             jobDto.setSalary(job.getSalary());
             jobDto.setExperience(job.getExperience());
             jobDto.setApplyLink(job.getApplyLink());
         }
+        List<Qualification> qualifications = job.getQualifications();
+        List<QualificationDto> qualificationDtos = convertToQualificationDto(jobDto, qualifications);
+        jobDto.setQualificationDtos(qualificationDtos);
         return jobDto;
+    }
+
+    /**
+     * This method convert the list of qualification and return List of qualificationDto
+     * @param jobDto
+     * @param qualifications
+     * @return
+     */
+    private List<QualificationDto> convertToQualificationDto(JobDto jobDto, List<Qualification> qualifications){
+        List<QualificationDto> qualificationDtos = new ArrayList<>();
+        for(Qualification qualification : qualifications){
+            QualificationDto qualificationDto = new QualificationDto(qualification);
+            qualificationDto.getJobDtos().add(jobDto);
+            qualificationDtos.add(qualificationDto);
+        }
+        return qualificationDtos;
     }
 
     /**
@@ -81,7 +111,6 @@ public class JobServiceImpl implements JobService {
         job.setCompanyName(jobDto.getCompanyName());
         job.setDriveType(jobDto.getDriveType());
         job.setProfileName(jobDto.getProfileName());
-        job.setQualification(jobDto.getQualification());
         job.setCreatedAt(LocalDate.now());
         job.setImageUrl(jobDto.getImageUrl());
         job.setLocation(jobDto.getLocation());

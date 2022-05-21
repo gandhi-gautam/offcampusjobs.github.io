@@ -1,5 +1,6 @@
 package co.offcampusjobs.model;
 
+import co.offcampusjobs.dto.QualificationDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,7 @@ public class Qualification {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "qualifications")
     private List<Job> jobs = new ArrayList<>();
 
+    public Qualification(QualificationDto qualificationDto) {
+        this.qualificationName = qualificationDto.getQualificationName();
+    }
 }

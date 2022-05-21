@@ -30,9 +30,6 @@ public class Job {
     @Column(name = "profile_name")
     private String profileName;
 
-    @Lob
-    private String qualification;
-
     @Column(name = "created_at")
     private LocalDate createdAt;
 
