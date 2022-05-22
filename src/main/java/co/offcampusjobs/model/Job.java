@@ -60,8 +60,14 @@ public class Job {
     private String applyLink;
 
     @ManyToMany
-    @JoinTable(name = "job_has_qualification",
+    @JoinTable(name = "job_qualification",
                 joinColumns = @JoinColumn(name = "job_id"),
                 inverseJoinColumns = @JoinColumn(name = "qualification_id"))
     private Set<Qualification> qualifications;
+
+    @ManyToMany
+    @JoinTable(name = "job_locations",
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "location_id"))
+    private Set<Location> locations;
 }
