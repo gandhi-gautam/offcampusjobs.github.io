@@ -1,7 +1,6 @@
 package co.offcampusjobs.business.impl;
 
 import co.offcampusjobs.business.JobBusiness;
-import co.offcampusjobs.dto.JobDto;
 import co.offcampusjobs.model.Job;
 import co.offcampusjobs.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Component
 public class JobBusinessImpl implements JobBusiness {
@@ -24,7 +23,9 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Job saveNewJob(Job job) {
         job.setImageUrl(changeImageURL(job.getImageUrl()));
-        return jobService.saveJob(job);
+        job = jobService.saveJob(job);
+        job.setCreatedAt(LocalDate.now());
+        return job;
     }
 
     /**
@@ -53,6 +54,6 @@ public class JobBusinessImpl implements JobBusiness {
      */
     @Override
     public Job getJob(long id){
-        return jobService.getJobDto(id);
+        return jobService.getJob(id);
     }
 }
