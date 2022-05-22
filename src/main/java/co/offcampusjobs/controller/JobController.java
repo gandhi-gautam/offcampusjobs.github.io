@@ -2,7 +2,9 @@ package co.offcampusjobs.controller;
 
 import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.model.Job;
-import co.offcampusjobs.util.Constant;
+import co.offcampusjobs.util.CommonConstant;
+import co.offcampusjobs.util.JobConstant;
+import co.offcampusjobs.util.UserConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,8 +29,8 @@ public class JobController {
      */
     @GetMapping("/job")
     public String saveJobForm(Model model){
-        model.addAttribute("job", new Job());
-        return "creator/SaveJob";
+        model.addAttribute(JobConstant.JOB, new Job());
+        return UserConstant.CREATOR +  "/SaveJob";
     }
 
     /**
@@ -52,21 +54,21 @@ public class JobController {
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 20-05-2022]
      */
-    @GetMapping("jobs/{drive}/{page}")
-    public String viewJobListPage(@PathVariable("drive") String drive, @PathVariable("page") Integer page, Model model){
-        Pageable pageable = PageRequest.of(page, Constant.PAGE_SIZE);
+    @GetMapping("job/{drive}/{page}")
+    public String viewJobListPage(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page) Integer page, Model model){
+        Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = null;
-        if(drive.equals("off-campus-jobs")){
+        if(drive.equals(JobConstant.OFFCAMPUSJOBS)){
             jobs = jobBusiness.getOffCampusJobs(pageable);
-            model.addAttribute("title", "OCJ - off-campus-jobs");
-            model.addAttribute("drive", "off-campus-jobs");
-            model.addAttribute("year", LocalDate.now().getYear());
-            model.addAttribute("jobs", jobBusiness.getOffCampusJobs(pageable));
-            model.addAttribute("totalPages", jobs.getTotalPages());
+            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.OFFCAMPUSJOBS);
+            model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
+            model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
+            model.addAttribute(JobConstant.JOBS, jobBusiness.getOffCampusJobs(pageable));
+            model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
         }
-        model.addAttribute("currentPage", page);
+        model.addAttribute(CommonConstant.CURRENT_PAGE, page);
 
-        return "viewer/ViewJobList";
+        return UserConstant.VIEWER + "/ViewJobList";
     }
 
     /**
@@ -75,10 +77,11 @@ public class JobController {
      * Comment : [refactoring date: 17-05-2022]
      */
     @GetMapping("/{drive}/{id}")
-    public String getJob(@PathVariable("drive") String drive, @PathVariable("id") long id, Model model){
+    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id, Model model){
         Job job = jobBusiness.getJob(id);
-        model.addAttribute("title", "Off Campus Jobs - "+job.getCompanyName() + " " + job.getProfileName());
-        model.addAttribute("job", job);
-        return "viewer/ViewJob";
+        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - "+job.getCompanyName() +
+                " " + job.getProfileName());
+        model.addAttribute(JobConstant.JOB, job);
+        return UserConstant.VIEWER + "/ViewJob";
     }
 }
