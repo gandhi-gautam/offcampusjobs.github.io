@@ -1,7 +1,7 @@
 package co.offcampusjobs.controller;
 
 import co.offcampusjobs.business.JobBusiness;
-import co.offcampusjobs.dto.JobDto;
+import co.offcampusjobs.model.Job;
 import co.offcampusjobs.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +27,7 @@ public class JobController {
      */
     @GetMapping("/job")
     public String saveJobForm(Model model){
-        model.addAttribute("jobDTO", new JobDto());
+        model.addAttribute("job", new Job());
         return "creator/SaveJob";
     }
 
@@ -38,12 +38,12 @@ public class JobController {
      */
     @ResponseBody
     @PostMapping("/job")
-    public JobDto saveJob(@Valid @ModelAttribute JobDto jobDto, BindingResult result){
+    public Job saveJob(@Valid @ModelAttribute Job job, BindingResult result){
         if(result.hasErrors()){
             System.out.println(result);
             return null;
         }
-        return jobBusiness.saveNewJob(jobDto);
+        return jobBusiness.saveNewJob(job);
     }
 
     /**
@@ -55,14 +55,14 @@ public class JobController {
     @GetMapping("jobs/{drive}/{page}")
     public String viewJobListPage(@PathVariable("drive") String drive, @PathVariable("page") Integer page, Model model){
         Pageable pageable = PageRequest.of(page, Constant.PAGE_SIZE);
-        Page<JobDto> jobDtos = null;
+        Page<Job> jobs = null;
         if(drive.equals("off-campus-jobs")){
-            jobDtos = jobBusiness.getOffCampusJobs(pageable);
+            jobs = jobBusiness.getOffCampusJobs(pageable);
             model.addAttribute("title", "OCJ - off-campus-jobs");
             model.addAttribute("drive", "off-campus-jobs");
             model.addAttribute("year", LocalDate.now().getYear());
             model.addAttribute("jobs", jobBusiness.getOffCampusJobs(pageable));
-            model.addAttribute("totalPages", jobDtos.getTotalPages());
+            model.addAttribute("totalPages", jobs.getTotalPages());
         }
         model.addAttribute("currentPage", page);
 
@@ -76,9 +76,9 @@ public class JobController {
      */
     @GetMapping("/{drive}/{id}")
     public String getJob(@PathVariable("drive") String drive, @PathVariable("id") long id, Model model){
-        JobDto jobDto = jobBusiness.getJob(id);
-        model.addAttribute("title", "Off Campus Jobs - "+jobDto.getCompanyName() + " " + jobDto.getProfileName());
-        model.addAttribute("job", jobDto);
+        Job job = jobBusiness.getJob(id);
+        model.addAttribute("title", "Off Campus Jobs - "+job.getCompanyName() + " " + job.getProfileName());
+        model.addAttribute("job", job);
         return "viewer/ViewJob";
     }
 }
