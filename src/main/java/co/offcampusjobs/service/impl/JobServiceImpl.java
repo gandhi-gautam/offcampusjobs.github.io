@@ -37,9 +37,8 @@ public class JobServiceImpl implements JobService {
      * Comment : [refactoring date: 15-05-2022]
      */
     @Override
-    public Page<JobDto> getOffCampusJobs(Pageable pageable) {
-        Page<Job> jobPage = jobRepository.findAllByOrderByCreatedAtDesc(pageable);
-        return toPageObjectDto(jobPage);
+    public Page<Job> getOffCampusJobs(Pageable pageable) {
+        return jobRepository.findAllByOrderByCreatedAtDesc(pageable);
     }
 
     public Page<JobDto> toPageObjectDto(Page<Job> objects) {

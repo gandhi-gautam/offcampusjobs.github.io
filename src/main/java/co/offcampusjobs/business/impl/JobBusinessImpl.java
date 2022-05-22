@@ -33,7 +33,7 @@ public class JobBusinessImpl implements JobBusiness {
      * Comment : [refactoring date: 15-05-2022]
      */
     @Override
-    public Page<JobDto> getOffCampusJobs(Pageable pageable) {
+    public Page<Job> getOffCampusJobs(Pageable pageable) {
         return jobService.getOffCampusJobs(pageable);
     }
 

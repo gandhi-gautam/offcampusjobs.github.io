@@ -56,14 +56,14 @@ public class JobController {
     @GetMapping("jobs/{drive}/{page}")
     public String viewJobListPage(@PathVariable("drive") String drive, @PathVariable("page") Integer page, Model model){
         Pageable pageable = PageRequest.of(page, Constant.PAGE_SIZE);
-        Page<JobDto> jobDtos = null;
+        Page<Job> jobs = null;
         if(drive.equals("off-campus-jobs")){
-            jobDtos = jobBusiness.getOffCampusJobs(pageable);
+            jobs = jobBusiness.getOffCampusJobs(pageable);
             model.addAttribute("title", "OCJ - off-campus-jobs");
             model.addAttribute("drive", "off-campus-jobs");
             model.addAttribute("year", LocalDate.now().getYear());
             model.addAttribute("jobs", jobBusiness.getOffCampusJobs(pageable));
-            model.addAttribute("totalPages", jobDtos.getTotalPages());
+            model.addAttribute("totalPages", jobs.getTotalPages());
         }
         model.addAttribute("currentPage", page);
 

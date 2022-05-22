@@ -10,7 +10,7 @@ import java.util.List;
 public interface JobService {
     Job saveJob(Job job);
 
-    Page<JobDto> getOffCampusJobs(Pageable pageable);
+    Page<Job> getOffCampusJobs(Pageable pageable);
 
     JobDto getJobDto(long id);
 }
