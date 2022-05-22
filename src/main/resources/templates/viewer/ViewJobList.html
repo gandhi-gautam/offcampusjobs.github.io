@@ -22,7 +22,7 @@
 
             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
             <li  th:classappend="${currentPage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item">
-                <a th:href="@{'/jobs/'+${drive}+'/'+${i-1}}" class="page-link" href="#">
+                <a th:href="@{'/job/'+${drive}+'/'+${i-1}}" class="page-link" href="#">
                     <span th:text="${i}"/>
                 </a>
             </li>
