@@ -31,4 +31,7 @@ public class Qualification {
             }, mappedBy = "qualifications")
     private Set<Job> jobs = new HashSet<>();
 
+    public Qualification(String courseName) {
+        this.qualificationName = courseName;
+    }
 }

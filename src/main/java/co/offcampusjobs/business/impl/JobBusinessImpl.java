@@ -2,6 +2,7 @@ package co.offcampusjobs.business.impl;
 
 import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.model.Job;
+import co.offcampusjobs.model.Qualification;
 import co.offcampusjobs.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JobBusinessImpl implements JobBusiness {
@@ -23,8 +26,27 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Job saveNewJob(Job job) {
         job.setImageUrl(changeImageURL(job.getImageUrl()));
-        job = jobService.saveJob(job);
+        job = extractQualifications(job, job.getQualification());
         job.setCreatedAt(LocalDate.now());
+        job = jobService.saveJob(job);
+        return job;
+    }
+
+    /**
+     * This method extract all the qualifications from string csv format and convert them into individual qualification
+     * object that have many to many functionality implemented
+     * @param job
+     * @param qualificationString
+     * @return
+     */
+    private Job extractQualifications(Job job, String qualificationString) {
+        String[] qualifications = qualificationString.split(",");
+        for(String courseName : qualifications){
+            Qualification qualification = new Qualification(courseName.trim());
+            job.getQualifications().add(qualification);
+            qualification.getJobs().add(job);
+
+        }
         return job;
     }
 
