@@ -39,12 +39,12 @@ public class JobController {
      */
     @ResponseBody
     @PostMapping("/job")
-    public JobDto saveJob(@Valid @ModelAttribute JobDto jobDto, BindingResult result){
+    public Job saveJob(@Valid @ModelAttribute Job job, BindingResult result){
         if(result.hasErrors()){
             System.out.println(result);
             return null;
         }
-        return jobBusiness.saveNewJob(jobDto);
+        return jobBusiness.saveNewJob(job);
     }
 
     /**

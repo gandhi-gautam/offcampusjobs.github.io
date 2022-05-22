@@ -27,9 +27,8 @@ public class JobServiceImpl implements JobService {
      * Comment : [refactoring date: 11-05-2022]
      */
     @Override
-    public JobDto saveJob(JobDto jobDto) {
-        Job job = jobRepository.save(convertToJobEntity(jobDto));
-        return convertTOJobDto(job);
+    public Job saveJob(Job job) {
+        return jobRepository.save(job);
     }
 
     /**
