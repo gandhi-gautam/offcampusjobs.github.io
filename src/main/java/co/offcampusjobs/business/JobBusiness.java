@@ -1,13 +1,14 @@
 package co.offcampusjobs.business;
 
-import co.offcampusjobs.dto.JobDto;
+import co.offcampusjobs.model.Job;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 public interface JobBusiness {
-    public JobDto saveNewJob(JobDto jobDto);
+    public Job saveNewJob(Job job);
 
-    List<JobDto> getOffCampusJobs();
+    Page<Job> getOffCampusJobs(Pageable pageable);
 
-    JobDto getJob(long id);
+    Job getJob(long id);
 }

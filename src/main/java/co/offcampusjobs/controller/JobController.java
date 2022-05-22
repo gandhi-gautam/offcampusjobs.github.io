@@ -1,8 +1,14 @@
 package co.offcampusjobs.controller;
 
 import co.offcampusjobs.business.JobBusiness;
-import co.offcampusjobs.dto.JobDto;
+import co.offcampusjobs.model.Job;
+import co.offcampusjobs.util.CommonConstant;
+import co.offcampusjobs.util.JobConstant;
+import co.offcampusjobs.util.UserConstant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,8 +29,8 @@ public class JobController {
      */
     @GetMapping("/job")
     public String saveJobForm(Model model){
-        model.addAttribute("jobDTO", new JobDto());
-        return "creator/SaveJob";
+        model.addAttribute(JobConstant.JOB, new Job());
+        return UserConstant.CREATOR +  "/SaveJob";
     }
 
     /**
@@ -34,29 +40,35 @@ public class JobController {
      */
     @ResponseBody
     @PostMapping("/job")
-    public JobDto saveJob(@Valid @ModelAttribute JobDto jobDto, BindingResult result){
+    public Job saveJob(@Valid @ModelAttribute Job job, BindingResult result){
         if(result.hasErrors()){
             System.out.println(result);
             return null;
         }
-        return jobBusiness.saveNewJob(jobDto);
+        return jobBusiness.saveNewJob(job);
     }
 
     /**
-     * Scope : [This method returns all the off-campus-jobs from database, It will trigger when url is /{drive type}]
+     * Scope : [This method returns all the off-campus-jobs from database, It will trigger when url is
+     * /{drive type}/{page} per page it shows 15 job item then page number changes.]
      * Author : [Gautam Gandhi]
-     * Comment : [refactoring date: 15-05-2022]
+     * Comment : [refactoring date: 20-05-2022]
      */
-    @GetMapping("/{drive}")
-    public String viewJobListPage(@PathVariable("drive") String drive, Model model){
-        if(drive.equals("off-campus-jobs")){
-            model.addAttribute("title", "OCJ - off-campus-jobs");
-            model.addAttribute("drive", "off-campus-jobs");
-            model.addAttribute("year", LocalDate.now().getYear());
-            model.addAttribute("jobs", jobBusiness.getOffCampusJobs());
-            return "viewer/ViewJobList";
+    @GetMapping("job/{drive}/{page}")
+    public String viewJobListPage(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page) Integer page, Model model){
+        Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
+        Page<Job> jobs = null;
+        if(drive.equals(JobConstant.OFFCAMPUSJOBS)){
+            jobs = jobBusiness.getOffCampusJobs(pageable);
+            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.OFFCAMPUSJOBS);
+            model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
+            model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
+            model.addAttribute(JobConstant.JOBS, jobBusiness.getOffCampusJobs(pageable));
+            model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
         }
-        return null;
+        model.addAttribute(CommonConstant.CURRENT_PAGE, page);
+
+        return UserConstant.VIEWER + "/ViewJobList";
     }
 
     /**
@@ -65,10 +77,11 @@ public class JobController {
      * Comment : [refactoring date: 17-05-2022]
      */
     @GetMapping("/{drive}/{id}")
-    public String getJob(@PathVariable("drive") String drive, @PathVariable("id") long id, Model model){
-        JobDto jobDto = jobBusiness.getJob(id);
-        model.addAttribute("title", "Off Campus Jobs - "+jobDto.getCompanyName() + " " + jobDto.getProfileName());
-        model.addAttribute("job", jobDto);
-        return "viewer/ViewJob";
+    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id, Model model){
+        Job job = jobBusiness.getJob(id);
+        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - "+job.getCompanyName() +
+                " " + job.getProfileName());
+        model.addAttribute(JobConstant.JOB, job);
+        return UserConstant.VIEWER + "/ViewJob";
     }
 }
