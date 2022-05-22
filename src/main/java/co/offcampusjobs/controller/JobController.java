@@ -2,6 +2,7 @@ package co.offcampusjobs.controller;
 
 import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.dto.JobDto;
+import co.offcampusjobs.model.Job;
 import co.offcampusjobs.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,7 @@ public class JobController {
      */
     @GetMapping("/job")
     public String saveJobForm(Model model){
-        model.addAttribute("jobDTO", new JobDto());
+        model.addAttribute("job", new Job());
         return "creator/SaveJob";
     }
 
