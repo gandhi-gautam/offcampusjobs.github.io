@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Qualification {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @NaturalId
