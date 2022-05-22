@@ -12,5 +12,5 @@ public interface JobService {
 
     Page<Job> getOffCampusJobs(Pageable pageable);
 
-    JobDto getJobDto(long id);
+    Job getJobDto(long id);
 }

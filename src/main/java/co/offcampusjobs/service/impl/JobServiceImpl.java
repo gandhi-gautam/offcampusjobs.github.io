@@ -95,8 +95,8 @@ public class JobServiceImpl implements JobService {
      * Comment : [refactoring date: 17-05-2022]
      */
     @Override
-    public JobDto getJobDto(long id){
-        return convertTOJobDto(jobRepository.getById(id));
+    public Job getJobDto(long id){
+        return jobRepository.getById(id);
     }
 
 

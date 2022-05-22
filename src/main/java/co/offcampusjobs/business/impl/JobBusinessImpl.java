@@ -52,7 +52,7 @@ public class JobBusinessImpl implements JobBusiness {
      * Comment : [refactoring date: 17-05-2022]
      */
     @Override
-    public JobDto getJob(long id){
+    public Job getJob(long id){
         return jobService.getJobDto(id);
     }
 }

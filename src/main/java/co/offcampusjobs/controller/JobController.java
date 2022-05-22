@@ -77,9 +77,9 @@ public class JobController {
      */
     @GetMapping("/{drive}/{id}")
     public String getJob(@PathVariable("drive") String drive, @PathVariable("id") long id, Model model){
-        JobDto jobDto = jobBusiness.getJob(id);
-        model.addAttribute("title", "Off Campus Jobs - "+jobDto.getCompanyName() + " " + jobDto.getProfileName());
-        model.addAttribute("job", jobDto);
+        Job job = jobBusiness.getJob(id);
+        model.addAttribute("title", "Off Campus Jobs - "+job.getCompanyName() + " " + job.getProfileName());
+        model.addAttribute("job", job);
         return "viewer/ViewJob";
     }
 }
