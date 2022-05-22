@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -59,11 +60,15 @@ public class Job {
     @Column(name = "apply_link", length = 1000)
     private String applyLink;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
     @JoinTable(name = "job_qualification",
                 joinColumns = @JoinColumn(name = "job_id"),
                 inverseJoinColumns = @JoinColumn(name = "qualification_id"))
-    private Set<Qualification> qualifications;
+    private Set<Qualification> qualifications = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "job_locations",
