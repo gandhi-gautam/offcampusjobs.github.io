@@ -1,5 +1,6 @@
 package co.offcampusjobs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -68,7 +70,7 @@ public class Job {
     @JoinTable(name = "job_qualification",
                 joinColumns = @JoinColumn(name = "job_id"),
                 inverseJoinColumns = @JoinColumn(name = "qualification_id"))
-    private Set<Qualification> qualifications = new HashSet<>();
+    private List<Qualification> qualifications = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "job_locations",
