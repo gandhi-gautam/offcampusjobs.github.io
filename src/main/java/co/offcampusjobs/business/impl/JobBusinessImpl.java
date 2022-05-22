@@ -46,8 +46,8 @@ public class JobBusinessImpl implements JobBusiness {
         String[] qualifications = qualificationString.split(",");
         for(String courseName : qualifications){
             Qualification qualification = null;
-            if(qualificationMap.containsKey(courseName)){
-                qualification = qualificationMap.get(courseName);
+            if(qualificationMap.containsKey(courseName.trim())){
+                qualification = qualificationMap.get(courseName.trim());
             } else {
                 qualification = new Qualification(courseName.trim());
             }
