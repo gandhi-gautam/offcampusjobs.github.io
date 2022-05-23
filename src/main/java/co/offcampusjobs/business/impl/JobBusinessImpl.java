@@ -20,6 +20,10 @@ public class JobBusinessImpl implements JobBusiness {
 
     @Autowired
     private QualificationService qualificationService;
+
+    public JobBusinessImpl() {
+    }
+
     /**
      * Scope : [This method saves the job in the DataBase]
      * Author : [Gautam Gandhi]
@@ -84,5 +88,10 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Job getJob(long id){
         return jobService.getJob(id);
+    }
+
+    @Override
+    public Page<Job> getJobsByQualificationName(String courseName, Pageable pageable) {
+        return jobService.getJobsByQualificationName(courseName, pageable);
     }
 }

@@ -9,4 +9,6 @@ public interface JobService {
     Page<Job> getOffCampusJobs(Pageable pageable);
 
     Job getJob(long id);
+
+    Page<Job> getJobsByQualificationName(String courseName, Pageable pageable);
 }

@@ -43,5 +43,10 @@ public class JobServiceImpl implements JobService {
         return jobRepository.getById(id);
     }
 
+    @Override
+    public Page<Job> getJobsByQualificationName(String courseName, Pageable pageable) {
+        return jobRepository.getJobsByQualificationName(courseName, pageable);
+    }
+
 
 }

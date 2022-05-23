@@ -55,7 +55,8 @@ public class JobController {
      * Comment : [refactoring date: 20-05-2022]
      */
     @GetMapping("job/{drive}/{page}")
-    public String viewJobListPage(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page) Integer page, Model model){
+    public String viewJobListPage(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page)
+    Integer page, Model model){
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = null;
         if(drive.equals(JobConstant.OFFCAMPUSJOBS)){
@@ -69,6 +70,25 @@ public class JobController {
         model.addAttribute(CommonConstant.CURRENT_PAGE, page);
 
         return UserConstant.VIEWER + "/ViewJobList";
+    }
+
+    /**
+     * This controller method is called when we select any qualification, it returns the list of all the jobs for that
+     * individual qualification
+     * @param page
+     * @param model
+     * @return
+     */
+
+    @ResponseBody
+    @GetMapping("/job/qualification/{courseName}/{page}")
+    public Page<Job> getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName,
+                                     @PathVariable(CommonConstant.Page) Integer page, Model model){
+        Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
+        Page<Job> jobs = jobBusiness.getJobsByQualificationName(courseName, pageable);
+        return jobs;
+
+//        return UserConstant.VIEWER + "/ViewJobList";
     }
 
     /**
