@@ -57,5 +57,16 @@ public class JobServiceImpl implements JobService {
         return jobRepository.getJobsByQualificationName(courseName, pageable);
     }
 
+    /**
+     * This controller method returns all job in particular location
+     * @param city
+     * @param pageable
+     * @return
+     */
+    @Override
+    public Page<Job> getJobsByLocation(String city, Pageable pageable) {
+        return jobRepository.getJobsByLocation(city, pageable);
+    }
+
 
 }

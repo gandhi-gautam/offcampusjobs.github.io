@@ -55,7 +55,7 @@ public class JobController {
      * Comment : [refactoring date: 20-05-2022]
      */
     @GetMapping("job/{drive}/{page}")
-    public String viewJobListPage(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page)
+    public String getTrendingJobs(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page)
     Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = null;
@@ -64,7 +64,7 @@ public class JobController {
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.OFFCAMPUSJOBS);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
             model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
-            model.addAttribute(JobConstant.JOBS, jobBusiness.getOffCampusJobs(pageable));
+            model.addAttribute(JobConstant.JOBS, jobs);
             model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
         }
         model.addAttribute(CommonConstant.CURRENT_PAGE, page);
@@ -88,7 +88,29 @@ public class JobController {
         model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.QUALIFICATION);
         model.addAttribute(CommonConstant.DRIVE, JobConstant.QUALIFICATION);
         model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
-        model.addAttribute(JobConstant.JOBS, jobBusiness.getOffCampusJobs(pageable));
+        model.addAttribute(JobConstant.JOBS, jobs);
+        model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
+        model.addAttribute(CommonConstant.CURRENT_PAGE, page);
+        return UserConstant.VIEWER + "/ViewJobList";
+    }
+
+    /**
+     * This controller method returns all job in particular location
+     * @param city
+     * @param page
+     * @param model
+     * @return
+     */
+    @GetMapping("/job/location/{city}/{page}")
+    public String getByLocation(@PathVariable(JobConstant.CITY) String city,
+                                         @PathVariable(CommonConstant.Page) Integer page, Model model) {
+        Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
+        Page<Job> jobs = jobBusiness.getJobsByLocation(city, pageable);
+
+        model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.LOCATION);
+        model.addAttribute(CommonConstant.DRIVE, JobConstant.LOCATION);
+        model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
+        model.addAttribute(JobConstant.JOBS, jobs);
         model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
         model.addAttribute(CommonConstant.CURRENT_PAGE, page);
         return UserConstant.VIEWER + "/ViewJobList";
