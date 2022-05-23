@@ -1,4 +1,5 @@
 package co.offcampusjobs.service;
+
 import co.offcampusjobs.model.Job;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -28,9 +28,9 @@ public class JobController {
      * Comment : [refactoring date: 12-05-2022]
      */
     @GetMapping("/job")
-    public String saveJobForm(Model model){
+    public String saveJobForm(Model model) {
         model.addAttribute(JobConstant.JOB, new Job());
-        return UserConstant.CREATOR +  "/SaveJob";
+        return UserConstant.CREATOR + "/SaveJob";
     }
 
     /**
@@ -40,8 +40,8 @@ public class JobController {
      */
     @ResponseBody
     @PostMapping("/job")
-    public Job saveJob(@Valid @ModelAttribute Job job, BindingResult result){
-        if(result.hasErrors()){
+    public Job saveJob(@Valid @ModelAttribute Job job, BindingResult result) {
+        if (result.hasErrors()) {
             System.out.println(result);
             return null;
         }
@@ -56,10 +56,10 @@ public class JobController {
      */
     @GetMapping("job/{drive}/{page}")
     public String viewJobListPage(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page)
-    Integer page, Model model){
+    Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = null;
-        if(drive.equals(JobConstant.OFFCAMPUSJOBS)){
+        if (drive.equals(JobConstant.OFFCAMPUSJOBS)) {
             jobs = jobBusiness.getOffCampusJobs(pageable);
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.OFFCAMPUSJOBS);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
@@ -75,21 +75,21 @@ public class JobController {
     /**
      * This controller method is called when we select any qualification, it returns the list of all the jobs for that
      * individual qualification
+     *
      * @param page
      * @param model
      * @return
      */
-
     @GetMapping("/job/qualification/{courseName}/{page}")
     public String getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName,
-                                     @PathVariable(CommonConstant.Page) Integer page, Model model){
+                                         @PathVariable(CommonConstant.Page) Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = jobBusiness.getJobsByQualificationName(courseName, pageable);
-            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.QUALIFICATION);
-            model.addAttribute(CommonConstant.DRIVE, JobConstant.QUALIFICATION);
-            model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
-            model.addAttribute(JobConstant.JOBS, jobBusiness.getOffCampusJobs(pageable));
-            model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
+        model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.QUALIFICATION);
+        model.addAttribute(CommonConstant.DRIVE, JobConstant.QUALIFICATION);
+        model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
+        model.addAttribute(JobConstant.JOBS, jobBusiness.getOffCampusJobs(pageable));
+        model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
         model.addAttribute(CommonConstant.CURRENT_PAGE, page);
         return UserConstant.VIEWER + "/ViewJobList";
     }
@@ -100,9 +100,9 @@ public class JobController {
      * Comment : [refactoring date: 17-05-2022]
      */
     @GetMapping("/{drive}/{id}")
-    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id, Model model){
+    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id, Model model) {
         Job job = jobBusiness.getJob(id);
-        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - "+job.getCompanyName() +
+        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + job.getCompanyName() +
                 " " + job.getProfileName());
         model.addAttribute(JobConstant.JOB, job);
         return UserConstant.VIEWER + "/ViewJob";

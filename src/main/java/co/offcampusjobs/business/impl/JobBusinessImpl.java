@@ -41,6 +41,7 @@ public class JobBusinessImpl implements JobBusiness {
     /**
      * This method extract all the qualifications from string csv format and convert them into individual qualification
      * object that have many to many functionality implemented
+     *
      * @param job
      * @param qualificationString
      * @return
@@ -48,9 +49,9 @@ public class JobBusinessImpl implements JobBusiness {
     private Job extractQualifications(Job job, String qualificationString) {
         Map<String, Qualification> qualificationMap = qualificationService.getAllQualifications();
         String[] qualifications = qualificationString.split(",");
-        for(String courseName : qualifications){
+        for (String courseName : qualifications) {
             Qualification qualification = null;
-            if(qualificationMap.containsKey(courseName.trim())){
+            if (qualificationMap.containsKey(courseName.trim())) {
                 qualification = qualificationMap.get(courseName.trim());
             } else {
                 qualification = new Qualification(courseName.trim());
@@ -76,7 +77,7 @@ public class JobBusinessImpl implements JobBusiness {
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 11-05-2022]
      */
-    private String changeImageURL(String url){
+    private String changeImageURL(String url) {
         return "https://drive.google.com/uc?export=view&id=" + url.split("/")[5];
     }
 
@@ -86,10 +87,17 @@ public class JobBusinessImpl implements JobBusiness {
      * Comment : [refactoring date: 17-05-2022]
      */
     @Override
-    public Job getJob(long id){
+    public Job getJob(long id) {
         return jobService.getJob(id);
     }
 
+    /**
+     * This method returns all the jobs with course name qualification requirement
+     *
+     * @param courseName
+     * @param pageable
+     * @return
+     */
     @Override
     public Page<Job> getJobsByQualificationName(String courseName, Pageable pageable) {
         return jobService.getJobsByQualificationName(courseName, pageable);

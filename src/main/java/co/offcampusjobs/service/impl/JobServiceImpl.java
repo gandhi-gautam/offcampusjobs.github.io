@@ -1,4 +1,5 @@
 package co.offcampusjobs.service.impl;
+
 import co.offcampusjobs.model.Job;
 import co.offcampusjobs.repository.JobRepository;
 import co.offcampusjobs.service.JobService;
@@ -39,10 +40,18 @@ public class JobServiceImpl implements JobService {
      * Comment : [refactoring date: 17-05-2022]
      */
     @Override
-    public Job getJob(long id){
+    public Job getJob(long id) {
         return jobRepository.getById(id);
     }
 
+    /**
+     * This method calls the repository custom method that returns all the jobs having an individual course name as
+     * basic requirements
+     *
+     * @param courseName
+     * @param pageable
+     * @return
+     */
     @Override
     public Page<Job> getJobsByQualificationName(String courseName, Pageable pageable) {
         return jobRepository.getJobsByQualificationName(courseName, pageable);
