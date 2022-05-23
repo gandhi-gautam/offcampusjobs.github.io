@@ -125,6 +125,12 @@ public class JobBusinessImpl implements JobBusiness {
         return jobService.getJobsByQualificationName(courseName, pageable);
     }
 
+    /**
+     * This controller method returns all job in particular location
+     * @param city
+     * @param pageable
+     * @return
+     */
     @Override
     public Page<Job> getJobsByLocation(String city, Pageable pageable) {
         return jobService.getJobsByLocation(city, pageable);

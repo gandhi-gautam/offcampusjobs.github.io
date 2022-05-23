@@ -94,6 +94,13 @@ public class JobController {
         return UserConstant.VIEWER + "/ViewJobList";
     }
 
+    /**
+     * This controller method returns all job in particular location
+     * @param city
+     * @param page
+     * @param model
+     * @return
+     */
     @GetMapping("/job/location/{city}/{page}")
     public String getByLocation(@PathVariable(JobConstant.CITY) String city,
                                          @PathVariable(CommonConstant.Page) Integer page, Model model) {

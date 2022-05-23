@@ -25,6 +25,12 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             nativeQuery = true)
     Page<Job> getJobsByQualificationName(@Param("courseName") String courseName, Pageable pageable);
 
+    /**
+     * This controller method returns all job in particular location
+     * @param city
+     * @param pageable
+     * @return
+     */
     @Query(value = "select j.id, j.apply_link, j.company_name, j.created_at, j.drive_type, j.experience, j.image_url, " +
             "j.profile_name, j.salary from job j inner join job_location jl on j.id = jl.job_id" +
             " inner join location l on jl.location_id = l.id where l.location_name = :city",
