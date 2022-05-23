@@ -49,6 +49,7 @@ public class Job {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Transient
     @NotEmpty(message = "Location cannot not be empty")
     private String location;
 
@@ -68,13 +69,17 @@ public class Job {
                     CascadeType.MERGE
             })
     @JoinTable(name = "job_qualification",
-                joinColumns = @JoinColumn(name = "job_id"),
-                inverseJoinColumns = @JoinColumn(name = "qualification_id"))
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "qualification_id"))
     private List<Qualification> qualifications = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
     @JoinTable(name = "job_locations",
             joinColumns = @JoinColumn(name = "job_id"),
             inverseJoinColumns = @JoinColumn(name = "location_id"))
-    private Set<Location> locations;
+    private List<Location> locations = new ArrayList<>();
 }

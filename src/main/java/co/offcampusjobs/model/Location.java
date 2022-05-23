@@ -1,7 +1,10 @@
 package co.offcampusjobs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Location {
@@ -12,7 +15,12 @@ public class Location {
     @Column(name = "location_name")
     private String locationName;
 
-    @ManyToMany(mappedBy = "locations")
-    private Set<Job> jobs;
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }, mappedBy = "locations")
+    private List<Job> jobs = new ArrayList<>();
 
 }
