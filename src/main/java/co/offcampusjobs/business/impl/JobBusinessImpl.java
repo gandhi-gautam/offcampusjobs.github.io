@@ -32,9 +32,26 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Job saveNewJob(Job job) {
         job.setImageUrl(changeImageURL(job.getImageUrl()));
-        job = extractQualifications(job, job.getQualification());
+        job = extractQualifications(job);
+        job  = extractLocations(job);
         job.setCreatedAt(LocalDate.now());
         job = jobService.saveJob(job);
+        return job;
+    }
+
+    private Job extractLocations(Job job) {
+        Map<String, Qualification> qualificationMap = qualificationService.getAllQualifications();
+        String[] qualifications = job.getQualification().split(",");
+        for (String courseName : qualifications) {
+            Qualification qualification = null;
+            if (qualificationMap.containsKey(courseName.trim())) {
+                qualification = qualificationMap.get(courseName.trim());
+            } else {
+                qualification = new Qualification(courseName.trim());
+            }
+            job.getQualifications().add(qualification);
+            qualification.getJobs().add(job);
+        }
         return job;
     }
 
@@ -43,12 +60,11 @@ public class JobBusinessImpl implements JobBusiness {
      * object that have many to many functionality implemented
      *
      * @param job
-     * @param qualificationString
      * @return
      */
-    private Job extractQualifications(Job job, String qualificationString) {
+    private Job extractQualifications(Job job) {
         Map<String, Qualification> qualificationMap = qualificationService.getAllQualifications();
-        String[] qualifications = qualificationString.split(",");
+        String[] qualifications = job.getQualification().split(",");
         for (String courseName : qualifications) {
             Qualification qualification = null;
             if (qualificationMap.containsKey(courseName.trim())) {
