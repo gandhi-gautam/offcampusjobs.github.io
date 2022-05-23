@@ -80,15 +80,18 @@ public class JobController {
      * @return
      */
 
-    @ResponseBody
     @GetMapping("/job/qualification/{courseName}/{page}")
-    public Page<Job> getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName,
+    public String getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName,
                                      @PathVariable(CommonConstant.Page) Integer page, Model model){
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = jobBusiness.getJobsByQualificationName(courseName, pageable);
-        return jobs;
-
-//        return UserConstant.VIEWER + "/ViewJobList";
+            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.QUALIFICATION);
+            model.addAttribute(CommonConstant.DRIVE, JobConstant.QUALIFICATION);
+            model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
+            model.addAttribute(JobConstant.JOBS, jobBusiness.getOffCampusJobs(pageable));
+            model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
+        model.addAttribute(CommonConstant.CURRENT_PAGE, page);
+        return UserConstant.VIEWER + "/ViewJobList";
     }
 
     /**
