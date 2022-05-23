@@ -12,4 +12,6 @@ public interface JobService {
     Job getJob(long id);
 
     Page<Job> getJobsByQualificationName(String courseName, Pageable pageable);
+
+    Page<Job> getJobsByLocation(String city, Pageable pageable);
 }

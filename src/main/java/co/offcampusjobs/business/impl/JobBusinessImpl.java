@@ -124,4 +124,9 @@ public class JobBusinessImpl implements JobBusiness {
     public Page<Job> getJobsByQualificationName(String courseName, Pageable pageable) {
         return jobService.getJobsByQualificationName(courseName, pageable);
     }
+
+    @Override
+    public Page<Job> getJobsByLocation(String city, Pageable pageable) {
+        return jobService.getJobsByLocation(city, pageable);
+    }
 }

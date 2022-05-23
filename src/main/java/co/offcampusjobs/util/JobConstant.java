@@ -8,5 +8,7 @@ public class JobConstant {
     public static final String ID = "id";
     public static final String OFFCAMPUSJOBS = "off-campus-jobs";
     public static final String QUALIFICATION = "qualification";
+    public static final String LOCATION = "location";
     public static final String COURSE_NAME = "courseName";
+    public static final String CITY = "city";
 }

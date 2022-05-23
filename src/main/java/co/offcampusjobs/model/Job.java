@@ -78,7 +78,7 @@ public class Job {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             })
-    @JoinTable(name = "job_locations",
+    @JoinTable(name = "job_location",
             joinColumns = @JoinColumn(name = "job_id"),
             inverseJoinColumns = @JoinColumn(name = "location_id"))
     private List<Location> locations = new ArrayList<>();

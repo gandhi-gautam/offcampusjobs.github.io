@@ -57,5 +57,10 @@ public class JobServiceImpl implements JobService {
         return jobRepository.getJobsByQualificationName(courseName, pageable);
     }
 
+    @Override
+    public Page<Job> getJobsByLocation(String city, Pageable pageable) {
+        return jobRepository.getJobsByLocation(city, pageable);
+    }
+
 
 }
