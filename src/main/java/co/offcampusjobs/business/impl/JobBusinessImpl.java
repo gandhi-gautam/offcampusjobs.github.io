@@ -2,8 +2,10 @@ package co.offcampusjobs.business.impl;
 
 import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.model.Job;
+import co.offcampusjobs.model.Location;
 import co.offcampusjobs.model.Qualification;
 import co.offcampusjobs.service.JobService;
+import co.offcampusjobs.service.LocationService;
 import co.offcampusjobs.service.QualificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Map;
 
 @Component
@@ -20,6 +23,9 @@ public class JobBusinessImpl implements JobBusiness {
 
     @Autowired
     private QualificationService qualificationService;
+
+    @Autowired
+    private LocationService locationService;
 
     public JobBusinessImpl() {
     }
@@ -40,17 +46,17 @@ public class JobBusinessImpl implements JobBusiness {
     }
 
     private Job extractLocations(Job job) {
-        Map<String, Qualification> qualificationMap = qualificationService.getAllQualifications();
-        String[] qualifications = job.getQualification().split(",");
-        for (String courseName : qualifications) {
-            Qualification qualification = null;
-            if (qualificationMap.containsKey(courseName.trim())) {
-                qualification = qualificationMap.get(courseName.trim());
+        Map<String, Location> locationMap = locationService.getAllLocations();
+        String[] locations = job.getLocation().split(",");
+        for (String city : locations) {
+            Location location = null;
+            if(locationMap.containsKey(city.trim().toLowerCase(Locale.ROOT))) {
+                location = locationMap.get(city.trim().toLowerCase(Locale.ROOT));
             } else {
-                qualification = new Qualification(courseName.trim());
+                location = new Location(city.trim().toLowerCase(Locale.ROOT));
             }
-            job.getQualifications().add(qualification);
-            qualification.getJobs().add(job);
+            job.getLocations().add(location);
+            location.getJobs().add(job);
         }
         return job;
     }
