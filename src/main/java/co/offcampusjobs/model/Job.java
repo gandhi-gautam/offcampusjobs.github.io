@@ -69,6 +69,9 @@ public class Job {
     @Column(name = "apply_link", length = 1000)
     private String applyLink;
 
+    @Column(name = "drive_type", length = 2)
+    private int driveFlag;
+
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
