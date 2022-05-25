@@ -101,7 +101,11 @@ public class JobBusinessImpl implements JobBusiness {
      */
     @Override
     public Page<Job> getOffCampusJobs(Pageable pageable) {
-        return jobService.getOffCampusJobs(pageable);
+        Page<Job> jobs = jobService.getOffCampusJobs(pageable);
+        for(Job job : jobs){
+            job.setDriveType(JobConstant.OFFCAMPUSJOBS);
+        }
+        return jobs;
     }
 
     /**
@@ -153,5 +157,14 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Page<Job> getJobsByLocation(String city, Pageable pageable) {
         return jobService.getJobsByLocation(city, pageable);
+    }
+
+    @Override
+    public Page<Job> getAllIntenshipJobs(Pageable pageable) {
+        Page<Job> jobs = jobService.getAllInternshipJobs(JobConstant.INTERNSHIP_FLAG, pageable);
+        for(Job job : jobs){
+            job.setDriveType(JobConstant.INTERNSHIP);
+        }
+        return jobs;
     }
 }

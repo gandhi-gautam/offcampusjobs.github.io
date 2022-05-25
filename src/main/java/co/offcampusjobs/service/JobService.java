@@ -14,4 +14,6 @@ public interface JobService {
     Page<Job> getJobsByQualificationName(String courseName, Pageable pageable);
 
     Page<Job> getJobsByLocation(String city, Pageable pageable);
+
+    Page<Job> getAllInternshipJobs(int internshipFlag, Pageable pageable);
 }

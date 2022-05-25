@@ -63,12 +63,15 @@ public class JobController {
             jobs = jobBusiness.getOffCampusJobs(pageable);
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.OFFCAMPUSJOBS);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
-            model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
-            model.addAttribute(JobConstant.JOBS, jobs);
-            model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
+        } else if(drive.equals(JobConstant.INTERNSHIP)) {
+            jobs = jobBusiness.getAllIntenshipJobs(pageable);
+            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.INTERNSHIP);
+            model.addAttribute(CommonConstant.DRIVE, JobConstant.INTERNSHIP);
         }
+        model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
+        model.addAttribute(JobConstant.JOBS, jobs);
         model.addAttribute(CommonConstant.CURRENT_PAGE, page);
-
+        model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
         return UserConstant.VIEWER + "/ViewJobList";
     }
 

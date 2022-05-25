@@ -37,4 +37,6 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             "jl.job_id inner join location l on jl.location_id = l.id where l.location_name = :city",
             nativeQuery = true)
     Page<Job> getJobsByLocation(String city, Pageable pageable);
+
+    Page<Job> findByDriveFlag(int internshipFlag, Pageable pageable);
 }
