@@ -11,8 +11,7 @@
         <h2> Latest <span th:text="${drive}"/> <span th:text="${year}"/></h2>
         <ul th:each="job: ${jobs}">
             <li><a th:href="@{/{drive}/{id}(drive=${drive},id=${job.jobId})}"
-                   th:text="${job.companyName + ' ' + job.driveType + ' ' + year + ' | ' + job.profileName + ' | ' +
-            job.qualification}"></a></li>
+                   th:text="${job.companyName + ' ' + job.driveType + ' ' + year + ' | ' + job.profileName}"></a></li>
         </ul>
     </table>
 

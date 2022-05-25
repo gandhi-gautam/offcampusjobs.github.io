@@ -159,11 +159,23 @@ public class JobBusinessImpl implements JobBusiness {
         return jobService.getJobsByLocation(city, pageable);
     }
 
+    /**
+     * This method returns all the jobs by drive type in pageable format
+     * @param driveFlag
+     * @param pageable
+     * @return
+     */
     @Override
     public Page<Job> getAllJobsByDriveFlag(int driveFlag, Pageable pageable) {
         Page<Job> jobs = jobService.getAllJobsByDriveFlag(driveFlag, pageable);
         for(Job job : jobs){
-            job.setDriveType(JobConstant.INTERNSHIP);
+            if(driveFlag == 0){
+                job.setDriveType(JobConstant.INTERNSHIP);
+            } else if (driveFlag == 1) {
+                job.setDriveType(JobConstant.FRESHER);
+            } else {
+                job.setDriveType(JobConstant.EXPERIENCE);
+            }
         }
         return jobs;
     }

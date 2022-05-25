@@ -80,6 +80,7 @@ public class JobController {
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.EXPERIENCE);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.EXPERIENCE);
         }
+        assert jobs != null;
         model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
         model.addAttribute(JobConstant.JOBS, jobs);
         model.addAttribute(CommonConstant.CURRENT_PAGE, page);
