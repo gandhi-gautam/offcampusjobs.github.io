@@ -27,8 +27,8 @@ public class Job {
     @Column(name = "company_name")
     private String companyName;
 
+    @Transient
     @NotEmpty(message = "Drive Type cannot not be empty")
-    @Column(name = "drive_type")
     private String driveType;
 
     @NotEmpty(message = "Profile Name cannot not be empty")
@@ -69,7 +69,8 @@ public class Job {
     @Column(name = "apply_link", length = 1000)
     private String applyLink;
 
-    @Column(name = "drive_type", length = 2)
+
+    @Column(name = "drive_flag", length = 2)
     private int driveFlag;
 
     @ManyToMany(fetch = FetchType.LAZY,

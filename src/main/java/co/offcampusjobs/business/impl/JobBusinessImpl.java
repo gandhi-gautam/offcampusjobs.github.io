@@ -7,6 +7,7 @@ import co.offcampusjobs.model.Qualification;
 import co.offcampusjobs.service.JobService;
 import co.offcampusjobs.service.LocationService;
 import co.offcampusjobs.service.QualificationService;
+import co.offcampusjobs.util.JobConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +39,15 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Job saveNewJob(Job job) {
         job.setImageUrl(changeImageURL(job.getImageUrl()));
+        if (job.getDriveType().toLowerCase().trim().equals("internship")){
+            job.setDriveFlag(JobConstant.INTERNSHIP_FLAG);
+        } else {
+            if(Integer.parseInt(job.getMinExperience()) == 0){
+                job.setDriveFlag(JobConstant.FRESHER_FLAG);
+            } else if(Integer.parseInt(job.getMinExperience()) > 0){
+                job.setDriveFlag(JobConstant.EXPERIENCE_FLAG);
+            }
+        }
         job = extractQualifications(job);
         job  = extractLocations(job);
         job.setCreatedAt(LocalDate.now());
@@ -110,7 +120,16 @@ public class JobBusinessImpl implements JobBusiness {
      */
     @Override
     public Job getJob(long id) {
-        return jobService.getJob(id);
+        Job job = jobService.getJob(id);
+        int driveFlag = job.getDriveFlag();
+        if(driveFlag == 0){
+            job.setDriveType(JobConstant.INTERNSHIP);
+        } else if(driveFlag == 1){
+            job.setDriveType(JobConstant.FRESHER);
+        } else {
+            job.setDriveType(JobConstant.EXPERIENCE);
+        }
+        return job;
     }
 
     /**

@@ -13,9 +13,12 @@ public class JobConstant {
     public static final String COURSE_NAME = "courseName";
     public static final String CITY = "city";
 
-    public static final int INTERNSHIP = 0;
-    public static final int FRESHER = 1;
-    public static final int EXPERIENCE = 2;
-    public static final int OFFCAMPUS = 3;
+    public static final int INTERNSHIP_FLAG = 0;
+    public static final int FRESHER_FLAG = 1;
+    public static final int EXPERIENCE_FLAG = 2;
+
+    public static final String INTERNSHIP = "Internship";
+    public static final String FRESHER = "Fresher";
+    public static final String EXPERIENCE = "Experience";
 
 }
