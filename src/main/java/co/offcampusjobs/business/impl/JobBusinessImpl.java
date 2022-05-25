@@ -160,8 +160,8 @@ public class JobBusinessImpl implements JobBusiness {
     }
 
     @Override
-    public Page<Job> getAllIntenshipJobs(Pageable pageable) {
-        Page<Job> jobs = jobService.getAllInternshipJobs(JobConstant.INTERNSHIP_FLAG, pageable);
+    public Page<Job> getAllJobsByDriveFlag(int driveFlag, Pageable pageable) {
+        Page<Job> jobs = jobService.getAllJobsByDriveFlag(driveFlag, pageable);
         for(Job job : jobs){
             job.setDriveType(JobConstant.INTERNSHIP);
         }

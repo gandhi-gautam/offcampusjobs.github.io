@@ -16,5 +16,5 @@ public interface JobBusiness {
 
     Page<Job> getJobsByLocation(String city, Pageable pageable);
 
-    Page<Job> getAllIntenshipJobs(Pageable pageable);
+    Page<Job> getAllJobsByDriveFlag(int driveFlag, Pageable pageable);
 }

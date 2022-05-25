@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.Locale;
 
 @Controller
 public class JobController {
@@ -59,14 +60,25 @@ public class JobController {
     Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = null;
-        if (drive.equals(JobConstant.OFFCAMPUSJOBS)) {
+        if (drive.trim().toLowerCase().equals(JobConstant.OFFCAMPUSJOBS.toLowerCase(Locale.ROOT))) {
             jobs = jobBusiness.getOffCampusJobs(pageable);
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.OFFCAMPUSJOBS);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
-        } else if(drive.equals(JobConstant.INTERNSHIP)) {
-            jobs = jobBusiness.getAllIntenshipJobs(pageable);
+
+        } else if(drive.trim().toLowerCase().equals(JobConstant.INTERNSHIP.toLowerCase())) {
+            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.INTERNSHIP_FLAG, pageable);
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.INTERNSHIP);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.INTERNSHIP);
+
+        } else if(drive.trim().toLowerCase().equals(JobConstant.FRESHER.toLowerCase())) {
+            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.FRESHER_FLAG, pageable);
+            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.FRESHER);
+            model.addAttribute(CommonConstant.DRIVE, JobConstant.FRESHER);
+
+        } else if(drive.trim().toLowerCase().equals(JobConstant.EXPERIENCE.toLowerCase())) {
+            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.EXPERIENCE_FLAG, pageable);
+            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.EXPERIENCE);
+            model.addAttribute(CommonConstant.DRIVE, JobConstant.EXPERIENCE);
         }
         model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
         model.addAttribute(JobConstant.JOBS, jobs);

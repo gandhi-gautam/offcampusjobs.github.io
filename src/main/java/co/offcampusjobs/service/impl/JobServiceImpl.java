@@ -69,8 +69,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Page<Job> getAllInternshipJobs(int internshipFlag, Pageable pageable) {
-        return jobRepository.findByDriveFlag(internshipFlag, pageable);
+    public Page<Job> getAllJobsByDriveFlag(int driveFlag, Pageable pageable) {
+        return jobRepository.findByDriveFlag(driveFlag, pageable);
     }
 
 
