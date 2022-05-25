@@ -65,17 +65,17 @@ public class JobController {
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.OFFCAMPUSJOBS);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
 
-        } else if(drive.trim().toLowerCase().equals(JobConstant.INTERNSHIP.toLowerCase())) {
+        } else if (drive.trim().toLowerCase().equals(JobConstant.INTERNSHIP.toLowerCase())) {
             jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.INTERNSHIP_FLAG, pageable);
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.INTERNSHIP);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.INTERNSHIP);
 
-        } else if(drive.trim().toLowerCase().equals(JobConstant.FRESHER.toLowerCase())) {
+        } else if (drive.trim().toLowerCase().equals(JobConstant.FRESHER.toLowerCase())) {
             jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.FRESHER_FLAG, pageable);
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.FRESHER);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.FRESHER);
 
-        } else if(drive.trim().toLowerCase().equals(JobConstant.EXPERIENCE.toLowerCase())) {
+        } else if (drive.trim().toLowerCase().equals(JobConstant.EXPERIENCE.toLowerCase())) {
             jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.EXPERIENCE_FLAG, pageable);
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.EXPERIENCE);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.EXPERIENCE);
@@ -112,6 +112,7 @@ public class JobController {
 
     /**
      * This controller method returns all job in particular location
+     *
      * @param city
      * @param page
      * @param model
@@ -119,7 +120,7 @@ public class JobController {
      */
     @GetMapping("/job/location/{city}/{page}")
     public String getByLocation(@PathVariable(JobConstant.CITY) String city,
-                                         @PathVariable(CommonConstant.Page) Integer page, Model model) {
+                                @PathVariable(CommonConstant.Page) Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = jobBusiness.getJobsByLocation(city, pageable);
 

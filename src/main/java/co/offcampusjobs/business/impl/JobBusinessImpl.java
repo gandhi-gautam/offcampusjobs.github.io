@@ -40,17 +40,17 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Job saveNewJob(Job job) {
         job.setImageUrl(changeImageURL(job.getImageUrl()));
-        if (job.getDriveType().toLowerCase().trim().equals("internship")){
+        if (job.getDriveType().toLowerCase().trim().equals("internship")) {
             job.setDriveFlag(JobConstant.INTERNSHIP_FLAG);
         } else {
-            if(Integer.parseInt(job.getMinExperience()) == 0){
+            if (Integer.parseInt(job.getMinExperience()) == 0) {
                 job.setDriveFlag(JobConstant.FRESHER_FLAG);
-            } else if(Integer.parseInt(job.getMinExperience()) > 0){
+            } else if (Integer.parseInt(job.getMinExperience()) > 0) {
                 job.setDriveFlag(JobConstant.EXPERIENCE_FLAG);
             }
         }
         job = extractQualifications(job);
-        job  = extractLocations(job);
+        job = extractLocations(job);
         job.setCreatedAt(LocalDate.now());
         job = jobService.saveJob(job);
         return job;
@@ -61,7 +61,7 @@ public class JobBusinessImpl implements JobBusiness {
         String[] locations = job.getLocation().split(",");
         for (String city : locations) {
             Location location = null;
-            if(locationMap.containsKey(city.trim().toLowerCase(Locale.ROOT))) {
+            if (locationMap.containsKey(city.trim().toLowerCase(Locale.ROOT))) {
                 location = locationMap.get(city.trim().toLowerCase(Locale.ROOT));
             } else {
                 location = new Location(city.trim().toLowerCase(Locale.ROOT));
@@ -103,7 +103,7 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Page<Job> getOffCampusJobs(Pageable pageable) {
         Page<Job> jobs = jobService.getOffCampusJobs(pageable);
-        for(Job job : jobs){
+        for (Job job : jobs) {
             job.setDriveType(JobConstant.OFFCAMPUSJOBS);
             concatQualifications(job);
         }
@@ -128,14 +128,15 @@ public class JobBusinessImpl implements JobBusiness {
     public Job getJob(long id) {
         Job job = jobService.getJob(id);
         int driveFlag = job.getDriveFlag();
-        if(driveFlag == 0){
+        if (driveFlag == 0) {
             job.setDriveType(JobConstant.INTERNSHIP);
-        } else if(driveFlag == 1){
+        } else if (driveFlag == 1) {
             job.setDriveType(JobConstant.FRESHER);
         } else {
             job.setDriveType(JobConstant.EXPERIENCE);
         }
         concatQualifications(job);
+        concatLocations(job);
         return job;
     }
 
@@ -149,7 +150,14 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Page<Job> getJobsByQualificationName(String courseName, Pageable pageable) {
         Page<Job> jobs = jobService.getJobsByQualificationName(courseName, pageable);
-        for(Job job : jobs){
+        for (Job job : jobs) {
+            if (job.getDriveFlag() == 0) {
+                job.setDriveType(JobConstant.INTERNSHIP);
+            } else if (job.getDriveFlag() == 1) {
+                job.setDriveType(JobConstant.FRESHER);
+            } else {
+                job.setDriveType(JobConstant.EXPERIENCE);
+            }
             concatQualifications(job);
         }
         return jobs;
@@ -157,6 +165,7 @@ public class JobBusinessImpl implements JobBusiness {
 
     /**
      * This controller method returns all job in particular location
+     *
      * @param city
      * @param pageable
      * @return
@@ -164,7 +173,14 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Page<Job> getJobsByLocation(String city, Pageable pageable) {
         Page<Job> jobs = jobService.getJobsByLocation(city, pageable);
-        for(Job job : jobs){
+        for (Job job : jobs) {
+            if (job.getDriveFlag() == 0) {
+                job.setDriveType(JobConstant.INTERNSHIP);
+            } else if (job.getDriveFlag() == 1) {
+                job.setDriveType(JobConstant.FRESHER);
+            } else {
+                job.setDriveType(JobConstant.EXPERIENCE);
+            }
             concatQualifications(job);
         }
         return jobs;
@@ -172,6 +188,7 @@ public class JobBusinessImpl implements JobBusiness {
 
     /**
      * This method returns all the jobs by drive type in pageable format
+     *
      * @param driveFlag
      * @param pageable
      * @return
@@ -179,8 +196,8 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Page<Job> getAllJobsByDriveFlag(int driveFlag, Pageable pageable) {
         Page<Job> jobs = jobService.getAllJobsByDriveFlag(driveFlag, pageable);
-        for(Job job : jobs){
-            if(driveFlag == 0){
+        for (Job job : jobs) {
+            if (driveFlag == 0) {
                 job.setDriveType(JobConstant.INTERNSHIP);
             } else if (driveFlag == 1) {
                 job.setDriveType(JobConstant.FRESHER);
@@ -193,16 +210,33 @@ public class JobBusinessImpl implements JobBusiness {
     }
 
     /**
-     * This method takes job and set concated job qualifications
+     * This method takes job and set concat job qualifications
+     *
+     * @param job
+     */
+    private void concatLocations(Job job) {
+        List<Location> locations = job.getLocations();
+        for (Location location : locations) {
+            if (job.getLocation() == null) {
+                job.setLocation(location.getLocationName());
+            } else {
+                job.setLocation(job.getLocation() + ", " + location.getLocationName());
+            }
+        }
+    }
+
+    /**
+     * This method takes job and set concat job qualifications
+     *
      * @param job
      */
     private void concatQualifications(Job job) {
         List<Qualification> qualifications = job.getQualifications();
-        for(Qualification qualification : qualifications) {
-            if(job.getQualification() == null){
+        for (Qualification qualification : qualifications) {
+            if (job.getQualification() == null) {
                 job.setQualification(qualification.getQualificationName());
             } else {
-                job.setQualification(job.getQualification() + ", " +qualification.getQualificationName());
+                job.setQualification(job.getQualification() + ", " + qualification.getQualificationName());
             }
         }
     }
