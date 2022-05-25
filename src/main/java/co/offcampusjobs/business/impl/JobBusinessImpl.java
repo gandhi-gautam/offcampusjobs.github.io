@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -104,6 +105,7 @@ public class JobBusinessImpl implements JobBusiness {
         Page<Job> jobs = jobService.getOffCampusJobs(pageable);
         for(Job job : jobs){
             job.setDriveType(JobConstant.OFFCAMPUSJOBS);
+            concatQualifications(job);
         }
         return jobs;
     }
@@ -133,6 +135,7 @@ public class JobBusinessImpl implements JobBusiness {
         } else {
             job.setDriveType(JobConstant.EXPERIENCE);
         }
+        concatQualifications(job);
         return job;
     }
 
@@ -145,7 +148,11 @@ public class JobBusinessImpl implements JobBusiness {
      */
     @Override
     public Page<Job> getJobsByQualificationName(String courseName, Pageable pageable) {
-        return jobService.getJobsByQualificationName(courseName, pageable);
+        Page<Job> jobs = jobService.getJobsByQualificationName(courseName, pageable);
+        for(Job job : jobs){
+            concatQualifications(job);
+        }
+        return jobs;
     }
 
     /**
@@ -156,7 +163,11 @@ public class JobBusinessImpl implements JobBusiness {
      */
     @Override
     public Page<Job> getJobsByLocation(String city, Pageable pageable) {
-        return jobService.getJobsByLocation(city, pageable);
+        Page<Job> jobs = jobService.getJobsByLocation(city, pageable);
+        for(Job job : jobs){
+            concatQualifications(job);
+        }
+        return jobs;
     }
 
     /**
@@ -176,7 +187,23 @@ public class JobBusinessImpl implements JobBusiness {
             } else {
                 job.setDriveType(JobConstant.EXPERIENCE);
             }
+            concatQualifications(job);
         }
         return jobs;
+    }
+
+    /**
+     * This method takes job and set concated job qualifications
+     * @param job
+     */
+    private void concatQualifications(Job job) {
+        List<Qualification> qualifications = job.getQualifications();
+        for(Qualification qualification : qualifications) {
+            if(job.getQualification() == null){
+                job.setQualification(qualification.getQualificationName());
+            } else {
+                job.setQualification(job.getQualification() + ", " +qualification.getQualificationName());
+            }
+        }
     }
 }

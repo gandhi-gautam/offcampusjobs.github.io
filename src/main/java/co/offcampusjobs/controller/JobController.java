@@ -138,7 +138,8 @@ public class JobController {
      * Comment : [refactoring date: 17-05-2022]
      */
     @GetMapping("/{drive}/{id}")
-    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id, Model model) {
+    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id,
+                         Model model) {
         Job job = jobBusiness.getJob(id);
         model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + job.getCompanyName() +
                 " " + job.getProfileName());
