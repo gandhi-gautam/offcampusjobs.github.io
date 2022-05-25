@@ -40,7 +40,7 @@
       <!--Experience-->
       <tr>
         <td>Experience</td>
-        <td th:text="${job.experience}"></td>
+        <td th:text="${job.minExperience} + ' - ' + ${job.maxExperience} + ' yrs'"></td>
       </tr>
 
       <!--Post Created At-->

@@ -68,5 +68,10 @@ public class JobServiceImpl implements JobService {
         return jobRepository.getJobsByLocation(city, pageable);
     }
 
+    @Override
+    public Page<Job> getAllJobsByDriveFlag(int driveFlag, Pageable pageable) {
+        return jobRepository.findByDriveFlag(driveFlag, pageable);
+    }
+
 
 }

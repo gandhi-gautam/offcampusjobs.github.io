@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.Locale;
 
 @Controller
 public class JobController {
@@ -59,16 +60,31 @@ public class JobController {
     Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = null;
-        if (drive.equals(JobConstant.OFFCAMPUSJOBS)) {
+        if (drive.trim().toLowerCase().equals(JobConstant.OFFCAMPUSJOBS.toLowerCase(Locale.ROOT))) {
             jobs = jobBusiness.getOffCampusJobs(pageable);
             model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.OFFCAMPUSJOBS);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
-            model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
-            model.addAttribute(JobConstant.JOBS, jobs);
-            model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
-        }
-        model.addAttribute(CommonConstant.CURRENT_PAGE, page);
 
+        } else if (drive.trim().toLowerCase().equals(JobConstant.INTERNSHIP.toLowerCase())) {
+            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.INTERNSHIP_FLAG, pageable);
+            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.INTERNSHIP);
+            model.addAttribute(CommonConstant.DRIVE, JobConstant.INTERNSHIP);
+
+        } else if (drive.trim().toLowerCase().equals(JobConstant.FRESHER.toLowerCase())) {
+            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.FRESHER_FLAG, pageable);
+            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.FRESHER);
+            model.addAttribute(CommonConstant.DRIVE, JobConstant.FRESHER);
+
+        } else if (drive.trim().toLowerCase().equals(JobConstant.EXPERIENCE.toLowerCase())) {
+            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.EXPERIENCE_FLAG, pageable);
+            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.EXPERIENCE);
+            model.addAttribute(CommonConstant.DRIVE, JobConstant.EXPERIENCE);
+        }
+        assert jobs != null;
+        model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
+        model.addAttribute(JobConstant.JOBS, jobs);
+        model.addAttribute(CommonConstant.CURRENT_PAGE, page);
+        model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
         return UserConstant.VIEWER + "/ViewJobList";
     }
 
@@ -96,6 +112,7 @@ public class JobController {
 
     /**
      * This controller method returns all job in particular location
+     *
      * @param city
      * @param page
      * @param model
@@ -103,7 +120,7 @@ public class JobController {
      */
     @GetMapping("/job/location/{city}/{page}")
     public String getByLocation(@PathVariable(JobConstant.CITY) String city,
-                                         @PathVariable(CommonConstant.Page) Integer page, Model model) {
+                                @PathVariable(CommonConstant.Page) Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = jobBusiness.getJobsByLocation(city, pageable);
 
@@ -122,7 +139,8 @@ public class JobController {
      * Comment : [refactoring date: 17-05-2022]
      */
     @GetMapping("/{drive}/{id}")
-    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id, Model model) {
+    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id,
+                         Model model) {
         Job job = jobBusiness.getJob(id);
         model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + job.getCompanyName() +
                 " " + job.getProfileName());
