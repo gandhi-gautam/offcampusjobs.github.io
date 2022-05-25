@@ -40,7 +40,7 @@ public class JobBusinessImpl implements JobBusiness {
     @Override
     public Job saveNewJob(Job job) {
         job.setImageUrl(changeImageURL(job.getImageUrl()));
-        if (job.getDriveType().toLowerCase().trim().equals("internship")) {
+        if (job.getDriveType().toLowerCase().trim().equals(JobConstant.INTERNSHIP.toLowerCase(Locale.ROOT))) {
             job.setDriveFlag(JobConstant.INTERNSHIP_FLAG);
         } else {
             if (Integer.parseInt(job.getMinExperience()) == 0) {
