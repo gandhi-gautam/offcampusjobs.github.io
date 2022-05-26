@@ -105,7 +105,8 @@ public class JobController {
                                          @PathVariable(CommonConstant.Page) Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = jobBusiness.getJobsByQualificationName(courseName, pageable);
-        model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.QUALIFICATION);
+        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
+                JobConstant.QUALIFICATION);
         model.addAttribute(CommonConstant.DRIVE, JobConstant.QUALIFICATION);
         model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
         model.addAttribute(JobConstant.JOBS, jobs);
