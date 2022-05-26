@@ -25,7 +25,7 @@ public class JobController {
 
     /**
      * Scope : [This method returns a Save Job Form when url is '/job' with get mapping]
-     * Author : [Sarthak Singh]
+     * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 26-05-2022]
      */
     @GetMapping("/job")
@@ -38,7 +38,7 @@ public class JobController {
     /**
      * Scope : [This method saves Job when url is '/job' with post mapping]
      * Author : [Gautam Gandhi]
-     * Comment : [refactoring date: 12-05-2022]
+     * Comment : [refactoring date: 26-05-2022]
      */
     @ResponseBody
     @PostMapping("/job")
@@ -54,7 +54,7 @@ public class JobController {
      * Scope : [This method returns all the off-campus-jobs from database, It will trigger when url is
      * /{drive type}/{page} per page it shows 15 job item then page number changes.]
      * Author : [Gautam Gandhi]
-     * Comment : [refactoring date: 20-05-2022]
+     * Comment : [refactoring date: 26-05-2022]
      */
     @GetMapping("job/{drive}/{page}")
     public String getTrendingJobs(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page)
@@ -141,8 +141,8 @@ public class JobController {
 
     /**
      * Scope : [This method returns a job for a particular Id]
-     * Author : [Sarthak Singh]
-     * Comment : [refactoring date: 17-05-2022]
+     * Author : [Gautam Gandhi]
+     * Comment : [refactoring date: 26-05-2022]
      */
     @GetMapping("/{drive}/{id}")
     public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id,
