@@ -31,6 +31,8 @@ public class JobController {
     @GetMapping("/job")
     public String saveJobForm(Model model) {
         model.addAttribute(JobConstant.JOB, new Job());
+        model.addAttribute("title", CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.SAVEJOB
+        );
         return UserConstant.CREATOR + "/SaveJob";
     }
 
