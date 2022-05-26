@@ -21,4 +21,5 @@ public class JobConstant {
     public static final String FRESHER = "Fresher";
     public static final String EXPERIENCE = "Experience";
 
+    public static final String SAVEJOB = "Save Job";
 }
