@@ -129,7 +129,8 @@ public class JobController {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = jobBusiness.getJobsByLocation(city, pageable);
 
-        model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.LOCATION);
+        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
+                JobConstant.LOCATION);
         model.addAttribute(CommonConstant.DRIVE, JobConstant.LOCATION);
         model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
         model.addAttribute(JobConstant.JOBS, jobs);
@@ -147,8 +148,8 @@ public class JobController {
     public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id,
                          Model model) {
         Job job = jobBusiness.getJob(id);
-        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + job.getCompanyName() +
-                " " + job.getProfileName());
+        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + job.getCompanyName()
+                + " " + job.getProfileName());
         model.addAttribute(JobConstant.JOB, job);
         return UserConstant.VIEWER + "/ViewJob";
     }
