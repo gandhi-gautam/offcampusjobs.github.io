@@ -26,13 +26,12 @@ public class JobController {
     /**
      * Scope : [This method returns a Save Job Form when url is '/job' with get mapping]
      * Author : [Sarthak Singh]
-     * Comment : [refactoring date: 12-05-2022]
+     * Comment : [refactoring date: 26-05-2022]
      */
     @GetMapping("/job")
     public String saveJobForm(Model model) {
         model.addAttribute(JobConstant.JOB, new Job());
-        model.addAttribute("title", CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.SAVEJOB
-        );
+        model.addAttribute("title", CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.SAVEJOB);
         return UserConstant.CREATOR + "/SaveJob";
     }
 
@@ -64,22 +63,25 @@ public class JobController {
         Page<Job> jobs = null;
         if (drive.trim().toLowerCase().equals(JobConstant.OFFCAMPUSJOBS.toLowerCase(Locale.ROOT))) {
             jobs = jobBusiness.getOffCampusJobs(pageable);
-            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.OFFCAMPUSJOBS);
+            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
+                    JobConstant.OFFCAMPUSJOBS);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
 
         } else if (drive.trim().toLowerCase().equals(JobConstant.INTERNSHIP.toLowerCase())) {
             jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.INTERNSHIP_FLAG, pageable);
-            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.INTERNSHIP);
+            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
+                    JobConstant.INTERNSHIP);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.INTERNSHIP);
 
         } else if (drive.trim().toLowerCase().equals(JobConstant.FRESHER.toLowerCase())) {
             jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.FRESHER_FLAG, pageable);
-            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.FRESHER);
+            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
+                    JobConstant.FRESHER);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.FRESHER);
 
         } else if (drive.trim().toLowerCase().equals(JobConstant.EXPERIENCE.toLowerCase())) {
             jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.EXPERIENCE_FLAG, pageable);
-            model.addAttribute(CommonConstant.TITLE, "OCJ - " + JobConstant.EXPERIENCE);
+            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +JobConstant.EXPERIENCE);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.EXPERIENCE);
         }
         assert jobs != null;
