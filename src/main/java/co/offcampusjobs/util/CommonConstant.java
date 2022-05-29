@@ -10,4 +10,5 @@ public class CommonConstant {
     public static final String CURRENT_PAGE = "currentPage";
     public static final String OFFCAMPUSJOBS = "OFF Campus Jobs";
 
+    public static final String HOMELOGO = "https://drive.google.com/uc?export=view&id=1ejAS5FMixJR1PJ5_WUnjoj90h194zb4Q";
 }

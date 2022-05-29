@@ -150,6 +150,8 @@ public class JobController {
         Job job = jobBusiness.getJob(id);
         model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + job.getCompanyName()
                 + " " + job.getProfileName());
+        model.addAttribute("year", job.getCreatedAt().getYear());
+        model.addAttribute("homeLogo", CommonConstant.HOMELOGO);
         model.addAttribute(JobConstant.JOB, job);
         return UserConstant.VIEWER + "/ViewJob";
     }
