@@ -14,6 +14,11 @@ public class LocationBusinessImpl implements LocationBusiness {
     private LocationService locationService;
 
 
+    /**
+     * This method returns the list of all the locations
+     * @author: Gautam Gandhi
+     * @return
+     */
     @Override
     public List<Location> getAllLocations() {
         return locationService.getAllLocations();

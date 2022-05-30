@@ -24,6 +24,11 @@ public class QualificationServiceImpl implements QualificationService {
         return qualificationMap;
     }
 
+    /**
+     * This method returns all the qualifications
+     * @author: Gautam Gandhi
+     * @return
+     */
     @Override
     public List<Qualification> getAllQualifications() {
         return qualificationRepository.findAll();

@@ -26,6 +26,11 @@ public class LocationServiceImpl implements LocationService {
         return locationMap;
     }
 
+    /**
+     * This method returns the list of all the locations
+     * @author: Gautam Gandhi
+     * @return
+     */
     @Override
     public List<Location> getAllLocations() {
         return locationRepository.findAll();

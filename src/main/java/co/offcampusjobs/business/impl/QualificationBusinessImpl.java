@@ -13,6 +13,11 @@ public class QualificationBusinessImpl implements QualificationBusiness {
     @Autowired
     private QualificationService qualificationService;
 
+    /**
+     * This method returns all the qualifications
+     * @author: Gautam Gandhi
+     * @return
+     */
     @Override
     public List<Qualification> getAllQualifications() {
         return qualificationService.getAllQualifications();

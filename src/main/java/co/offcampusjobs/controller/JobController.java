@@ -31,6 +31,12 @@ public class JobController {
     @Autowired
     private LocationBusiness locationBusiness;
 
+    /**
+     * This method returns the dashboard when url is '/'
+     * @author: Gautam Gandhi
+     * @param model
+     * @return
+     */
     @GetMapping("/")
     public String getDashboard(Model model){
         //title, year
