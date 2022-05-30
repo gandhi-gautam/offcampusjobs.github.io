@@ -37,7 +37,7 @@
 
     <!--Trending Jobs-->
     <div class="mt-4 border border-secondary">
-        <div class="text-center">
+        <div class="text-center mt-2 mb-2">
             <h1>Trending Jobs <span th:text="${year}"/></h1>
         </div>
 
@@ -93,7 +93,48 @@
     </div>
 
     <!--Jobs By Qualification-->
+    <div class="mt-4 border border-secondary">
+        <div class="text-center mt-2 mb-2">
+            <h1>Jobs By Qualifications</h1>
+        </div>
 
+        <div class="row">
+            <div class="col col-md-2 mb-3" th:each="qualification : ${qualifications}">
+                <div class="card">
+                    <a href="#"
+                       th:href="@{/job/qualification/{courseName}/{page}(courseName=${qualification.qualificationName}, page='0')}"
+                       class="btn">
+                        <!--<img src="..." class="card-img-top" alt="...">-->
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${qualification.qualificationName}"></h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Jobs By Locations-->
+    <div class="mt-4 border border-secondary">
+        <div class="text-center mt-2 mb-2">
+            <h1>Jobs By Locations</h1>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-2 mb-3" th:each="location : ${locations}">
+                <div class="card">
+                    <a href="#"
+                       th:href="@{/job/location/{city}/{page}(city=${location.locationName}, page='0')}"
+                       class="btn">
+                        <!--<img src="..." class="card-img-top" alt="...">-->
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${location.locationName}"></h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

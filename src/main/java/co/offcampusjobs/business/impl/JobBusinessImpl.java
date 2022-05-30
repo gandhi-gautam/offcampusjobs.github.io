@@ -57,7 +57,7 @@ public class JobBusinessImpl implements JobBusiness {
     }
 
     private Job extractLocations(Job job) {
-        Map<String, Location> locationMap = locationService.getAllLocations();
+        Map<String, Location> locationMap = locationService.getLocations();
         String[] locations = job.getLocation().split(",");
         for (String city : locations) {
             Location location = null;
@@ -80,7 +80,7 @@ public class JobBusinessImpl implements JobBusiness {
      * @return
      */
     private Job extractQualifications(Job job) {
-        Map<String, Qualification> qualificationMap = qualificationService.getAllQualifications();
+        Map<String, Qualification> qualificationMap = qualificationService.getQualifications();
         String[] qualifications = job.getQualification().split(",");
         for (String courseName : qualifications) {
             Qualification qualification = null;

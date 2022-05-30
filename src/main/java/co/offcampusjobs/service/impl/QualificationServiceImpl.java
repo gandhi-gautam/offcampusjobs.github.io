@@ -15,12 +15,22 @@ public class QualificationServiceImpl implements QualificationService {
     @Autowired
     private QualificationRepository qualificationRepository;
     @Override
-    public Map<String, Qualification> getAllQualifications() {
+    public Map<String, Qualification> getQualifications() {
         List<Qualification> qualifications =  qualificationRepository.findAll();
         Map<String, Qualification> qualificationMap = new HashMap<>();
         for(Qualification qualification : qualifications){
             qualificationMap.put(qualification.getQualificationName(), qualification);
         }
         return qualificationMap;
+    }
+
+    /**
+     * This method returns all the qualifications
+     * @author: Gautam Gandhi
+     * @return
+     */
+    @Override
+    public List<Qualification> getAllQualifications() {
+        return qualificationRepository.findAll();
     }
 }
