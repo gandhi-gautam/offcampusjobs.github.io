@@ -1,6 +1,8 @@
 package co.offcampusjobs.controller;
 
 import co.offcampusjobs.business.JobBusiness;
+import co.offcampusjobs.business.LocationBusiness;
+import co.offcampusjobs.business.QualificationBusiness;
 import co.offcampusjobs.model.Job;
 import co.offcampusjobs.util.CommonConstant;
 import co.offcampusjobs.util.JobConstant;
@@ -23,11 +25,19 @@ public class JobController {
     @Autowired
     private JobBusiness jobBusiness;
 
+    @Autowired
+    private QualificationBusiness qualificationBusiness;
+
+    @Autowired
+    private LocationBusiness locationBusiness;
+
     @GetMapping("/")
     public String getDashboard(Model model){
         //title, year
         model.addAttribute("title", CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.DASHBOARD);
         model.addAttribute("year", CommonConstant.CURRENT_YEAR);
+        model.addAttribute("qualifications", qualificationBusiness.getAllQualifications());
+        model.addAttribute("locations", locationBusiness.getAllLocations());
         return UserConstant.VIEWER + "/Dashboard";
     }
 

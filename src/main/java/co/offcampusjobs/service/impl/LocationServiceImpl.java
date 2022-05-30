@@ -17,12 +17,17 @@ public class LocationServiceImpl implements LocationService {
     private LocationRepository locationRepository;
 
     @Override
-    public Map<String, Location> getAllLocations() {
+    public Map<String, Location> getLocations() {
         List<Location> locations = locationRepository.findAll();
         Map<String, Location> locationMap = new HashMap<>();
         for(Location location : locations){
             locationMap.put(location.getLocationName(), location);
         }
         return locationMap;
+    }
+
+    @Override
+    public List<Location> getAllLocations() {
+        return locationRepository.findAll();
     }
 }
