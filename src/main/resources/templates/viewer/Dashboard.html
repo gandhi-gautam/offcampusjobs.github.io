@@ -11,75 +11,77 @@
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
-    <div class=container>
-        <!--Navbar starts-->
-
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-4">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-1 mr-1">
-                        <li class="nav-item"><a class="nav-link active"
-                                                aria-current="page" href="#" th:href="@{/}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#"
-                                                th:href="@{/job/{drive}/{page}(drive='Fresher', page='0')}">Fresher
-                            Jobs</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#"
-                                                th:href="@{/job/{drive}/{page}(drive='off-campus-jobs', page='0')}">Off
-                            Campus Drive</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#"
-                                                th:href="@{/job/qualification/{courseName}/{page}(courseName='B.tech', page='0')}">It
-                            Jobs</a>
-                        </li>
-                    </ul>
-                </div>
+<div class="container border border-secondary">
+    <!--Navbar starts-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-4">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-1 mr-1">
+                    <li class="nav-item"><a class="nav-link active"
+                                            aria-current="page" href="#" th:href="@{/}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"
+                                            th:href="@{/job/{drive}/{page}(drive='Fresher', page='0')}">Fresher
+                        Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"
+                                            th:href="@{/job/{drive}/{page}(drive='off-campus-jobs', page='0')}">Off
+                        Campus Drive</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"
+                                            th:href="@{/job/qualification/{courseName}/{page}(courseName='B.tech', page='0')}">It
+                        Jobs</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
+    <!--NavBar Ends-->
 
-        <!--NavBar Ends-->
+    <!--Trending Jobs-->
+    <div class="mt-4 border border-secondary">
+        <div class="text-center">
+            <h1>Trending Jobs <span th:text="${year}"/></h1>
+        </div>
 
-        <!--Trending Jobs-->
-        <div class="">
-            <div class="text-center">
-                <h1>Trending Jobs <span th:text = "${year}"/></h1>
-            </div>
-
-                <!--Fresher Jobs-->
-                <div class="card" style="width: 18rem;">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            <div class="col">
+                <div class="card h-100">
                     <a href="#" th:href="@{/job/{drive}/{page}(drive='Fresher', page='0')}" class="btn">
-                        <img src="..." class="card-img-top" alt="...">
+                        <!--<img src="..." class="card-img-top" alt="...">-->
                         <div class="card-body">
                             <h5 class="card-title">Fresher Jobs</h5>
                             <p class="card-text">All the Fresher jobs in the market.</p>
                         </div>
                     </a>
                 </div>
+            </div>
 
-                <!--Off Campus Jobs-->
-                <div class="card" style="width: 18rem;">
+            <div class="col">
+                <div class="card h-100">
                     <a href="#" th:href="@{/job/{drive}/{page}(drive='off-campus-jobs', page='0')}" class="btn">
-                        <img src="..." class="card-img-top" alt="...">
+                        <!--<img src="..." class="card-img-top" alt="...">-->
                         <div class="card-body">
                             <h5 class="card-title">Off Campus Jobs</h5>
                             <p class="card-text">All the off campus drive happening.</p>
                         </div>
                     </a>
                 </div>
+            </div>
 
-                <!--Experience Jobs-->
-                <div class="card" style="width: 18rem;">
+            <div class="col">
+                <div class="card h-100">
                     <a href="#" th:href="@{/job/{drive}/{page}(drive='Experience', page='0')}" class="btn">
-                        <img src="..." class="card-img-top" alt="...">
+                        <!--<img src="..." class="card-img-top" alt="...">-->
                         <div class="card-body">
                             <h5 class="card-title">Experience Jobs</h5>
                             <p class="card-text">All the Experience Job in the market.</p>
                         </div>
                     </a>
                 </div>
+            </div>
 
-                <!--Internship Jobs-->
-                <div class="card" style="width: 18rem;">
+            <div class="col">
+                <div class="card h-100">
                     <a href="#" th:href="@{/job/{drive}/{page}(drive='Internship', page='0')}" class="btn">
-                        <img src="..." class="card-img-top" alt="...">
+                        <!--<img src="..." class="card-img-top" alt="...">-->
                         <div class="card-body">
                             <h5 class="card-title">Internship Jobs</h5>
                             <p class="card-text">All the Internship jobs in the market.</p>
@@ -87,9 +89,11 @@
                     </a>
                 </div>
             </div>
-
         </div>
-
     </div>
+
+    <!--Jobs By Qualification-->
+
+</div>
 </body>
 </html>

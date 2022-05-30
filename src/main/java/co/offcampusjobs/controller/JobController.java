@@ -26,6 +26,8 @@ public class JobController {
     @GetMapping("/")
     public String getDashboard(Model model){
         //title, year
+        model.addAttribute("title", CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.DASHBOARD);
+        model.addAttribute("year", CommonConstant.CURRENT_YEAR);
         return UserConstant.VIEWER + "/Dashboard";
     }
 
