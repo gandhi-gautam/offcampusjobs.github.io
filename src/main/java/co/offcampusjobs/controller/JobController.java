@@ -23,6 +23,12 @@ public class JobController {
     @Autowired
     private JobBusiness jobBusiness;
 
+    @GetMapping("/")
+    public String getDashboard(Model model){
+        //title, year
+        return UserConstant.VIEWER + "/Dashboard";
+    }
+
     /**
      * Scope : [This method returns a Save Job Form when url is '/job' with get mapping]
      * Author : [Gautam Gandhi]
@@ -81,7 +87,7 @@ public class JobController {
 
         } else if (drive.trim().toLowerCase().equals(JobConstant.EXPERIENCE.toLowerCase())) {
             jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.EXPERIENCE_FLAG, pageable);
-            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +JobConstant.EXPERIENCE);
+            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.EXPERIENCE);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.EXPERIENCE);
         }
         assert jobs != null;
