@@ -1,72 +1,109 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title th:text="${title}"></title>
+<meta charset="UTF-8">
+<title th:text="${title}"></title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
-  <table border="1">
-    <tbody>
-      <!--Company Name-->
-      <tr>
-        <td>Company Name</td>
-        <td th:text="${job.companyName}"></td>
-      </tr>
+	<div class=container>
 
-      <!--Profile Name-->
-      <tr>
-        <td>Profile Name</td>
-        <td th:text="${job.profileName}"></td>
-      </tr>
+		<!--Navbar starts-->
 
-      <!--Qualification-->
-      <tr>
-        <td>Qualification</td>
-        <td th:text="${job.qualification}"></td>
-      </tr>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-4">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-1 mr-1">
+						<li class="nav-item"><a class="nav-link active"
+							aria-current="page" href="#" th:href="@{/}">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"
+							th:href="@{/job/{drive}/{page}(drive='Fresher', page='0')}">Fresher
+								Jobs</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"
+							th:href="@{/job/{drive}/{page}(drive='off-campus-jobs', page='0')}">Off
+								Campus Drive</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"
+							th:href="@{/job/qualification/{courseName}/{page}(courseName='B.tech', page='0')}">It
+								Jobs</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
 
-      <!--Location-->
-      <tr>
-        <td>Location</td>
-        <td th:text="${job.location}"></td>
-      </tr>
+		<!--Navbar ends-->
+		<div class="Header text-center">
+			<h3 class="mt-3"
+				th:text="${job.companyName} + ' - ' + ${year} + ' | ' + ${job.profileName} + ' | ' +
+        ${job.qualification} + ' | ' + ${job.location}">
+			</h3>
+			<h4 class="mt-3">
+				Posted On: <span th:text="${job.createdAt}" />
+			</h4>
+			<div class="image-container">
+				<img class="job-image img-fluid w-75 p-3"
+					th:src="@{${job.imageUrl}}">
+			</div>
+		</div>
+		<div class="text-center mt-5 mb-5">
+			<table class="table table-hover table-bordered table-striped mt-5">
+				<tbody>
+					<!--Company Name-->
+					<tr>
+						<td>Company Name</td>
+						<td th:text="${job.companyName}"></td>
+					</tr>
 
-      <!--Salary-->
-      <tr>
-        <td>Salary</td>
-        <td th:text="${job.salary}"></td>
-      </tr>
+					<!--Profile Name-->
+					<tr>
+						<td>Profile Name</td>
+						<td th:text="${job.profileName}"></td>
+					</tr>
 
-      <!--Experience-->
-      <tr>
-        <td>Experience</td>
-        <td th:text="${job.experience}"></td>
-      </tr>
+					<!--Qualification-->
+					<tr>
+						<td>Qualification</td>
+						<td th:text="${job.qualification}"></td>
+					</tr>
 
-      <!--Post Created At-->
-      <tr>
-        <td>Posted On </td>
-        <td th:text="${job.createdAt}"></td>
-      </tr>
+					<!--Location-->
+					<tr>
+						<td>Location</td>
+						<td th:text="${job.location}"></td>
+					</tr>
 
-      <!--Apply Link-->
-      <tr>
-        <td>Apply Link</td>
-        <td th:text="${job.applyLink}"></td>
-      </tr>
+					<!--Salary-->
+					<tr>
+						<td>Salary</td>
+						<td th:text="${job.salary}"></td>
+					</tr>
 
-      <!--Image Url-->
-      <tr>
-        <td>Image Url</td>
-        <td th:text="${job.imageUrl}"></td>
-      </tr>
+					<!--Experience-->
+					<tr>
+						<td>Experience</td>
+						<td
+							th:text="${job.minExperience} + ' - ' + ${job.maxExperience} + ' yrs'"></td>
+					</tr>
 
-      <!--Drive Type-->
-      <tr>
-        <td>Drive Type</td>
-        <td th:text="${job.driveType}"></td>
-      </tr>
-    </tbody>
-  </table>
+					<!--Drive Type-->
+					<tr>
+						<td>Drive Type</td>
+						<td th:text="${job.driveType}"></td>
+					</tr>
+
+					<!--Apply Link-->
+					<tr>
+						<td>Apply Link</td>
+						<td><a th:href="@{${job.applyLink}}" th:target="_blank">Click
+								to Apply</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </body>
 </html>

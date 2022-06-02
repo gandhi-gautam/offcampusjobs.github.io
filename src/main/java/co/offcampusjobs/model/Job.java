@@ -1,6 +1,5 @@
 package co.offcampusjobs.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,10 +7,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Setter
@@ -28,8 +27,8 @@ public class Job {
     @Column(name = "company_name")
     private String companyName;
 
+    @Transient
     @NotEmpty(message = "Drive Type cannot not be empty")
-    @Column(name = "drive_type")
     private String driveType;
 
     @NotEmpty(message = "Profile Name cannot not be empty")
@@ -49,18 +48,30 @@ public class Job {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Transient
     @NotEmpty(message = "Location cannot not be empty")
     private String location;
 
     @NotEmpty(message = "Salary cannot not be empty")
     private String salary;
 
-    @NotEmpty(message = "Experience cannot not be empty")
-    private String experience;
+    @NotEmpty(message = "Min Experience cannot not be empty")
+    @Size(min = 0, message = "Min Experience cannot be less than 0")
+    @Column(name = "min_experience")
+    private String minExperience;
+
+    @NotEmpty(message = "Max Experience cannot not be empty")
+    @Size(min = 0, message = "Max Experience cannot be less than 0")
+    @Column(name = "max_experience")
+    private String maxExperience;
 
     @NotEmpty(message = "Apply Link cannot not be empty")
     @Column(name = "apply_link", length = 1000)
     private String applyLink;
+
+
+    @Column(name = "drive_flag", length = 2)
+    private int driveFlag;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -68,13 +79,17 @@ public class Job {
                     CascadeType.MERGE
             })
     @JoinTable(name = "job_qualification",
-                joinColumns = @JoinColumn(name = "job_id"),
-                inverseJoinColumns = @JoinColumn(name = "qualification_id"))
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "qualification_id"))
     private List<Qualification> qualifications = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "job_locations",
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "job_location",
             joinColumns = @JoinColumn(name = "job_id"),
             inverseJoinColumns = @JoinColumn(name = "location_id"))
-    private Set<Location> locations;
+    private List<Location> locations = new ArrayList<>();
 }
