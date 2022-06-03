@@ -33,7 +33,7 @@ public class JobController {
      * Comment : [refactoring date: 3-6-2022]
      */
     @PostMapping("/add")
-    public ResponseEntity<Job> saveJob(@Valid @ModelAttribute Job job, BindingResult result) {
+    public ResponseEntity<Job> saveJob(@Valid @RequestBody Job job, BindingResult result) {
         if (result.hasErrors()) {
             System.out.println(result);
             return null;
