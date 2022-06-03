@@ -4,9 +4,9 @@ import co.offcampusjobs.model.Job;
 import co.offcampusjobs.repository.JobRepository;
 import co.offcampusjobs.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -30,8 +30,8 @@ public class JobServiceImpl implements JobService {
      * Comment : [refactoring date: 15-05-2022]
      */
     @Override
-    public Page<Job> getOffCampusJobs(Pageable pageable) {
-        return jobRepository.findAllByOrderByCreatedAtDesc(pageable);
+    public List<Job> getOffCampusJobs() {
+        return jobRepository.findAllByOrderByCreatedAtDesc();
     }
 
     /**
@@ -49,28 +49,26 @@ public class JobServiceImpl implements JobService {
      * basic requirements
      *
      * @param courseName
-     * @param pageable
      * @return
      */
     @Override
-    public Page<Job> getJobsByQualificationName(String courseName, Pageable pageable) {
-        return jobRepository.getJobsByQualificationName(courseName, pageable);
+    public List<Job> getJobsByQualificationName(String courseName) {
+        return jobRepository.getJobsByQualificationName(courseName);
     }
 
     /**
      * This controller method returns all job in particular location
      * @param city
-     * @param pageable
      * @return
      */
     @Override
-    public Page<Job> getJobsByLocation(String city, Pageable pageable) {
-        return jobRepository.getJobsByLocation(city, pageable);
+    public List<Job> getJobsByLocation(String city) {
+        return jobRepository.getJobsByLocation(city);
     }
 
     @Override
-    public Page<Job> getAllJobsByDriveFlag(int driveFlag, Pageable pageable) {
-        return jobRepository.findByDriveFlag(driveFlag, pageable);
+    public List<Job> getAllJobsByDriveFlag(int driveFlag) {
+        return jobRepository.findByDriveFlag(driveFlag);
     }
 
 
