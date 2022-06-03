@@ -34,6 +34,9 @@ public class JobBusinessImpl implements JobBusiness {
      * Scope : [This method saves the job in the DataBase]
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 11-05-2022]
+     *
+     * @param job
+     * @return
      */
     @Override
     public Job saveNewJob(Job job) {
@@ -54,6 +57,14 @@ public class JobBusinessImpl implements JobBusiness {
         return job;
     }
 
+    /**
+     * This method extract all the locations from csv format
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 11-05-2022]
+     *
+     * @param job
+     * @return
+     */
     private Job extractLocations(Job job) {
         Map<String, Location> locationMap = locationService.getLocations();
         String[] locations = job.getLocation().split(",");
@@ -73,6 +84,8 @@ public class JobBusinessImpl implements JobBusiness {
     /**
      * This method extract all the qualifications from string csv format and convert them into individual qualification
      * object that have many to many functionality implemented
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 11-05-2022]
      *
      * @param job
      * @return
@@ -141,9 +154,10 @@ public class JobBusinessImpl implements JobBusiness {
 
     /**
      * This method returns all the jobs with course name qualification requirement
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 03-06-2022]
      *
      * @param courseName
-     * @param pageable
      * @return
      */
     @Override
@@ -166,7 +180,6 @@ public class JobBusinessImpl implements JobBusiness {
      * This controller method returns all job in particular location
      *
      * @param city
-
      * @return
      */
     @Override
@@ -187,6 +200,8 @@ public class JobBusinessImpl implements JobBusiness {
 
     /**
      * This method returns all the jobs by drive type in pageable format
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 11-05-2022]
      *
      * @param driveFlag
      * @return
@@ -210,6 +225,8 @@ public class JobBusinessImpl implements JobBusiness {
 
     /**
      * This method takes job and set concat job qualifications
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 03-06-2022]
      *
      * @param job
      */
@@ -226,6 +243,8 @@ public class JobBusinessImpl implements JobBusiness {
 
     /**
      * This method takes job and set concat job qualifications
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 03-06-2022]
      *
      * @param job
      */

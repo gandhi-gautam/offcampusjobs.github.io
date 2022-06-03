@@ -47,6 +47,8 @@ public class JobServiceImpl implements JobService {
     /**
      * This method calls the repository custom method that returns all the jobs having an individual course name as
      * basic requirements
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 03-06-2022]
      *
      * @param courseName
      * @return
@@ -58,6 +60,9 @@ public class JobServiceImpl implements JobService {
 
     /**
      * This controller method returns all job in particular location
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 03-06-2022]
+     *
      * @param city
      * @return
      */
@@ -66,6 +71,14 @@ public class JobServiceImpl implements JobService {
         return jobRepository.getJobsByLocation(city);
     }
 
+    /**
+     * This method return list of jobs based on drive flag
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 03-06-2022]
+     *
+     * @param driveFlag
+     * @return
+     */
     @Override
     public List<Job> getAllJobsByDriveFlag(int driveFlag) {
         return jobRepository.findByDriveFlag(driveFlag);

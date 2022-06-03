@@ -28,9 +28,9 @@ public class JobController {
     private LocationBusiness locationBusiness;
 
     /**
-     * Scope : [This method saves Job when url is '/job' with post mapping]
+     * Scope : [This method saves Job when url is '/add' with post mapping]
      * Author : [Gautam Gandhi]
-     * Comment : [refactoring date: 26-05-2022]
+     * Comment : [refactoring date: 3-6-2022]
      */
     @PostMapping("/add")
     public ResponseEntity<Job> saveJob(@Valid @ModelAttribute Job job, BindingResult result) {
@@ -42,10 +42,9 @@ public class JobController {
     }
 
     /**
-     * Scope : [This method returns all the off-campus-jobs from database, It will trigger when url is
-     * /{drive type}/{page} per page it shows 15 job item then page number changes.]
+     * Scope : [This method returns all the trending jobs based on drive type
      * Author : [Gautam Gandhi]
-     * Comment : [refactoring date: 26-05-2022]
+     * Comment : [refactoring date: 3-06-2022]
      */
     @GetMapping("/find/trendingjobs/{drive}")
     public ResponseEntity<List<Job>> getTrendingJobs(@PathVariable(JobConstant.DRIVE) String drive) {
@@ -66,12 +65,28 @@ public class JobController {
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
+    /**
+     * This api returns all the jobs by course name
+     * Author : [Gautam Gandhi]
+     * Comment : [refactoring date: 3-06-2022]
+     *
+     * @param courseName
+     * @return
+     */
     @GetMapping("/find/qualification/{courseName}")
     public ResponseEntity<List<Job>> getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName) {
         List<Job> jobs = jobBusiness.getJobsByQualificationName(courseName);
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
+    /**
+     * This api returns all the jobs by city name
+     * Author : [Gautam Gandhi]
+     * Comment : [refactoring date: 3-06-2022]
+     *
+     * @param city
+     * @return
+     */
     @GetMapping("/find/location/{city}")
     public ResponseEntity<List<Job>> getByLocation(@PathVariable(JobConstant.CITY) String city) {
         List<Job> jobs = jobBusiness.getJobsByLocation(city);
@@ -82,6 +97,9 @@ public class JobController {
      * Scope : [This method returns a job for a particular Id]
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 26-05-2022]
+     *
+     * @param id
+     * @return
      */
     @GetMapping("/find/{id}")
     public ResponseEntity<Job> getJob(@PathVariable(JobConstant.ID) long id) {
