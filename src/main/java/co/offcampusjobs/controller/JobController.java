@@ -20,7 +20,8 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Locale;
 
-@Controller
+@RestController
+@RequestMapping("/api/v1/job")
 public class JobController {
     @Autowired
     private JobBusiness jobBusiness;
@@ -33,12 +34,13 @@ public class JobController {
 
     /**
      * This method returns the dashboard when url is '/'
-     * @author: Gautam Gandhi
+     *
      * @param model
      * @return
+     * @author: Gautam Gandhi
      */
     @GetMapping("/")
-    public String getDashboard(Model model){
+    public String getDashboard(Model model) {
         //title, year
         model.addAttribute("title", CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.DASHBOARD);
         model.addAttribute("year", CommonConstant.CURRENT_YEAR);
@@ -81,26 +83,22 @@ public class JobController {
      * Comment : [refactoring date: 26-05-2022]
      */
     @GetMapping("job/{drive}/{page}")
-    public String getTrendingJobs(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page)
-    Integer page, Model model) {
+    public String getTrendingJobs(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page) Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = null;
         if (drive.trim().toLowerCase().equals(JobConstant.OFFCAMPUSJOBS.toLowerCase(Locale.ROOT))) {
             jobs = jobBusiness.getOffCampusJobs(pageable);
-            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
-                    JobConstant.OFFCAMPUSJOBS);
+            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.OFFCAMPUSJOBS);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
 
         } else if (drive.trim().toLowerCase().equals(JobConstant.INTERNSHIP.toLowerCase())) {
             jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.INTERNSHIP_FLAG, pageable);
-            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
-                    JobConstant.INTERNSHIP);
+            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.INTERNSHIP);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.INTERNSHIP);
 
         } else if (drive.trim().toLowerCase().equals(JobConstant.FRESHER.toLowerCase())) {
             jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.FRESHER_FLAG, pageable);
-            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
-                    JobConstant.FRESHER);
+            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.FRESHER);
             model.addAttribute(CommonConstant.DRIVE, JobConstant.FRESHER);
 
         } else if (drive.trim().toLowerCase().equals(JobConstant.EXPERIENCE.toLowerCase())) {
@@ -125,12 +123,10 @@ public class JobController {
      * @return
      */
     @GetMapping("/job/qualification/{courseName}/{page}")
-    public String getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName,
-                                         @PathVariable(CommonConstant.Page) Integer page, Model model) {
+    public String getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName, @PathVariable(CommonConstant.Page) Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = jobBusiness.getJobsByQualificationName(courseName, pageable);
-        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
-                JobConstant.QUALIFICATION);
+        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.QUALIFICATION);
         model.addAttribute(CommonConstant.DRIVE, JobConstant.QUALIFICATION);
         model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
         model.addAttribute(JobConstant.JOBS, jobs);
@@ -148,13 +144,11 @@ public class JobController {
      * @return
      */
     @GetMapping("/job/location/{city}/{page}")
-    public String getByLocation(@PathVariable(JobConstant.CITY) String city,
-                                @PathVariable(CommonConstant.Page) Integer page, Model model) {
+    public String getByLocation(@PathVariable(JobConstant.CITY) String city, @PathVariable(CommonConstant.Page) Integer page, Model model) {
         Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
         Page<Job> jobs = jobBusiness.getJobsByLocation(city, pageable);
 
-        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
-                JobConstant.LOCATION);
+        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.LOCATION);
         model.addAttribute(CommonConstant.DRIVE, JobConstant.LOCATION);
         model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
         model.addAttribute(JobConstant.JOBS, jobs);
@@ -169,11 +163,9 @@ public class JobController {
      * Comment : [refactoring date: 26-05-2022]
      */
     @GetMapping("/{drive}/{id}")
-    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id,
-                         Model model) {
+    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id, Model model) {
         Job job = jobBusiness.getJob(id);
-        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + job.getCompanyName()
-                + " " + job.getProfileName());
+        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + job.getCompanyName() + " " + job.getProfileName());
         model.addAttribute("year", job.getCreatedAt().getYear());
         model.addAttribute("homeLogo", CommonConstant.HOMELOGO);
         model.addAttribute(JobConstant.JOB, job);
