@@ -32,7 +32,7 @@ public class JobController {
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 26-05-2022]
      */
-    @PostMapping("/job")
+    @PostMapping("/add")
     public ResponseEntity<Job> saveJob(@Valid @ModelAttribute Job job, BindingResult result) {
         if (result.hasErrors()) {
             System.out.println(result);
@@ -47,7 +47,7 @@ public class JobController {
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 26-05-2022]
      */
-    @GetMapping("/trendingjobs/{drive}")
+    @GetMapping("/find/trendingjobs/{drive}")
     public ResponseEntity<List<Job>> getTrendingJobs(@PathVariable(JobConstant.DRIVE) String drive) {
         List<Job> jobs = null;
         if (drive.trim().toLowerCase().equals(JobConstant.OFFCAMPUSJOBS.toLowerCase(Locale.ROOT))) {
@@ -66,15 +66,14 @@ public class JobController {
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
-    @GetMapping("/qualification/{courseName}")
+    @GetMapping("/find/qualification/{courseName}")
     public ResponseEntity<List<Job>> getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName) {
         List<Job> jobs = jobBusiness.getJobsByQualificationName(courseName);
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
-    @GetMapping("/location/{city}")
+    @GetMapping("/find/location/{city}")
     public ResponseEntity<List<Job>> getByLocation(@PathVariable(JobConstant.CITY) String city) {
-
         List<Job> jobs = jobBusiness.getJobsByLocation(city);
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
@@ -84,8 +83,8 @@ public class JobController {
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 26-05-2022]
      */
-    @GetMapping("/{drive}/{id}")
-    public ResponseEntity<Job> getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id) {
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Job> getJob(@PathVariable(JobConstant.ID) long id) {
         Job job = jobBusiness.getJob(id);
         return new ResponseEntity<>(job, HttpStatus.OK);
     }

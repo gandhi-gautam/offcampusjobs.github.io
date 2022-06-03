@@ -104,6 +104,7 @@ public class JobBusinessImpl implements JobBusiness {
         for (Job job : jobs) {
             job.setDriveType(JobConstant.OFFCAMPUSJOBS);
             concatQualifications(job);
+            concatLocations(job);
         }
         return jobs;
     }
@@ -202,6 +203,7 @@ public class JobBusinessImpl implements JobBusiness {
                 job.setDriveType(JobConstant.EXPERIENCE);
             }
             concatQualifications(job);
+            concatLocations(job);
         }
         return jobs;
     }

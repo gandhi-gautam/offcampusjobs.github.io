@@ -1,5 +1,6 @@
 package co.offcampusjobs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -73,6 +74,7 @@ public class Job {
     @Column(name = "drive_flag", length = 2)
     private int driveFlag;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -83,6 +85,7 @@ public class Job {
             inverseJoinColumns = @JoinColumn(name = "qualification_id"))
     private List<Qualification> qualifications = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
