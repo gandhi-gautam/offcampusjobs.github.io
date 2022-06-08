@@ -74,6 +74,12 @@ public class Job implements Serializable {
     @Column(name = "drive_flag", length = 2)
     private int driveFlag;
 
+    @Lob
+    private String jd;
+
+    @Lob
+    private String skills;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
