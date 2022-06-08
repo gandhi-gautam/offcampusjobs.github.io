@@ -9,8 +9,6 @@ import co.offcampusjobs.service.LocationService;
 import co.offcampusjobs.service.QualificationService;
 import co.offcampusjobs.util.JobConstant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -36,6 +34,9 @@ public class JobBusinessImpl implements JobBusiness {
      * Scope : [This method saves the job in the DataBase]
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 11-05-2022]
+     *
+     * @param job
+     * @return
      */
     @Override
     public Job saveNewJob(Job job) {
@@ -56,6 +57,14 @@ public class JobBusinessImpl implements JobBusiness {
         return job;
     }
 
+    /**
+     * This method extract all the locations from csv format
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 11-05-2022]
+     *
+     * @param job
+     * @return
+     */
     private Job extractLocations(Job job) {
         Map<String, Location> locationMap = locationService.getLocations();
         String[] locations = job.getLocation().split(",");
@@ -75,6 +84,8 @@ public class JobBusinessImpl implements JobBusiness {
     /**
      * This method extract all the qualifications from string csv format and convert them into individual qualification
      * object that have many to many functionality implemented
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 11-05-2022]
      *
      * @param job
      * @return
@@ -101,11 +112,12 @@ public class JobBusinessImpl implements JobBusiness {
      * Comment : [refactoring date: 15-05-2022]
      */
     @Override
-    public Page<Job> getOffCampusJobs(Pageable pageable) {
-        Page<Job> jobs = jobService.getOffCampusJobs(pageable);
+    public List<Job> getOffCampusJobs() {
+        List<Job> jobs = jobService.getOffCampusJobs();
         for (Job job : jobs) {
             job.setDriveType(JobConstant.OFFCAMPUSJOBS);
             concatQualifications(job);
+            concatLocations(job);
         }
         return jobs;
     }
@@ -142,14 +154,15 @@ public class JobBusinessImpl implements JobBusiness {
 
     /**
      * This method returns all the jobs with course name qualification requirement
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 03-06-2022]
      *
      * @param courseName
-     * @param pageable
      * @return
      */
     @Override
-    public Page<Job> getJobsByQualificationName(String courseName, Pageable pageable) {
-        Page<Job> jobs = jobService.getJobsByQualificationName(courseName, pageable);
+    public List<Job> getJobsByQualificationName(String courseName) {
+        List<Job> jobs = jobService.getJobsByQualificationName(courseName);
         for (Job job : jobs) {
             if (job.getDriveFlag() == 0) {
                 job.setDriveType(JobConstant.INTERNSHIP);
@@ -167,12 +180,11 @@ public class JobBusinessImpl implements JobBusiness {
      * This controller method returns all job in particular location
      *
      * @param city
-     * @param pageable
      * @return
      */
     @Override
-    public Page<Job> getJobsByLocation(String city, Pageable pageable) {
-        Page<Job> jobs = jobService.getJobsByLocation(city, pageable);
+    public List<Job> getJobsByLocation(String city) {
+        List<Job> jobs = jobService.getJobsByLocation(city);
         for (Job job : jobs) {
             if (job.getDriveFlag() == 0) {
                 job.setDriveType(JobConstant.INTERNSHIP);
@@ -188,14 +200,15 @@ public class JobBusinessImpl implements JobBusiness {
 
     /**
      * This method returns all the jobs by drive type in pageable format
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 11-05-2022]
      *
      * @param driveFlag
-     * @param pageable
      * @return
      */
     @Override
-    public Page<Job> getAllJobsByDriveFlag(int driveFlag, Pageable pageable) {
-        Page<Job> jobs = jobService.getAllJobsByDriveFlag(driveFlag, pageable);
+    public List<Job> getAllJobsByDriveFlag(int driveFlag) {
+        List<Job> jobs = jobService.getAllJobsByDriveFlag(driveFlag);
         for (Job job : jobs) {
             if (driveFlag == 0) {
                 job.setDriveType(JobConstant.INTERNSHIP);
@@ -205,12 +218,15 @@ public class JobBusinessImpl implements JobBusiness {
                 job.setDriveType(JobConstant.EXPERIENCE);
             }
             concatQualifications(job);
+            concatLocations(job);
         }
         return jobs;
     }
 
     /**
      * This method takes job and set concat job qualifications
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 03-06-2022]
      *
      * @param job
      */
@@ -227,6 +243,8 @@ public class JobBusinessImpl implements JobBusiness {
 
     /**
      * This method takes job and set concat job qualifications
+     * Author: [Gautam Gandhi]
+     * Date: [refactoring date: 03-06-2022]
      *
      * @param job
      */

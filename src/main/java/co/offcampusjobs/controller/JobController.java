@@ -4,23 +4,19 @@ import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.business.LocationBusiness;
 import co.offcampusjobs.business.QualificationBusiness;
 import co.offcampusjobs.model.Job;
-import co.offcampusjobs.util.CommonConstant;
 import co.offcampusjobs.util.JobConstant;
-import co.offcampusjobs.util.UserConstant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 
-@Controller
+@RestController
+@RequestMapping("/api/v1/job")
 public class JobController {
     @Autowired
     private JobBusiness jobBusiness;
@@ -32,151 +28,82 @@ public class JobController {
     private LocationBusiness locationBusiness;
 
     /**
-     * This method returns the dashboard when url is '/'
-     * @author: Gautam Gandhi
-     * @param model
-     * @return
-     */
-    @GetMapping("/")
-    public String getDashboard(Model model){
-        //title, year
-        model.addAttribute("title", CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.DASHBOARD);
-        model.addAttribute("year", CommonConstant.CURRENT_YEAR);
-        model.addAttribute("qualifications", qualificationBusiness.getAllQualifications());
-        model.addAttribute("locations", locationBusiness.getAllLocations());
-        return UserConstant.VIEWER + "/Dashboard";
-    }
-
-    /**
-     * Scope : [This method returns a Save Job Form when url is '/job' with get mapping]
+     * Scope : [This method saves Job when url is '/add' with post mapping]
      * Author : [Gautam Gandhi]
-     * Comment : [refactoring date: 26-05-2022]
+     * Comment : [refactoring date: 3-6-2022]
      */
-    @GetMapping("/job")
-    public String saveJobForm(Model model) {
-        model.addAttribute(JobConstant.JOB, new Job());
-        model.addAttribute("title", CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.SAVEJOB);
-        return UserConstant.CREATOR + "/SaveJob";
-    }
-
-    /**
-     * Scope : [This method saves Job when url is '/job' with post mapping]
-     * Author : [Gautam Gandhi]
-     * Comment : [refactoring date: 26-05-2022]
-     */
-    @ResponseBody
-    @PostMapping("/job")
-    public Job saveJob(@Valid @ModelAttribute Job job, BindingResult result) {
+    @PostMapping("/add")
+    public ResponseEntity<Job> saveJob(@Valid @RequestBody Job job, BindingResult result) {
         if (result.hasErrors()) {
             System.out.println(result);
             return null;
         }
-        return jobBusiness.saveNewJob(job);
+        return new ResponseEntity<>(jobBusiness.saveNewJob(job), HttpStatus.CREATED);
     }
 
     /**
-     * Scope : [This method returns all the off-campus-jobs from database, It will trigger when url is
-     * /{drive type}/{page} per page it shows 15 job item then page number changes.]
+     * Scope : [This method returns all the trending jobs based on drive type
      * Author : [Gautam Gandhi]
-     * Comment : [refactoring date: 26-05-2022]
+     * Comment : [refactoring date: 3-06-2022]
      */
-    @GetMapping("job/{drive}/{page}")
-    public String getTrendingJobs(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(CommonConstant.Page)
-    Integer page, Model model) {
-        Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
-        Page<Job> jobs = null;
+    @GetMapping("/find/trendingjobs/{drive}")
+    public ResponseEntity<List<Job>> getTrendingJobs(@PathVariable(JobConstant.DRIVE) String drive) {
+        List<Job> jobs = null;
         if (drive.trim().toLowerCase().equals(JobConstant.OFFCAMPUSJOBS.toLowerCase(Locale.ROOT))) {
-            jobs = jobBusiness.getOffCampusJobs(pageable);
-            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
-                    JobConstant.OFFCAMPUSJOBS);
-            model.addAttribute(CommonConstant.DRIVE, JobConstant.OFFCAMPUSJOBS);
+            jobs = jobBusiness.getOffCampusJobs();
 
         } else if (drive.trim().toLowerCase().equals(JobConstant.INTERNSHIP.toLowerCase())) {
-            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.INTERNSHIP_FLAG, pageable);
-            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
-                    JobConstant.INTERNSHIP);
-            model.addAttribute(CommonConstant.DRIVE, JobConstant.INTERNSHIP);
+            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.INTERNSHIP_FLAG);
 
         } else if (drive.trim().toLowerCase().equals(JobConstant.FRESHER.toLowerCase())) {
-            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.FRESHER_FLAG, pageable);
-            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
-                    JobConstant.FRESHER);
-            model.addAttribute(CommonConstant.DRIVE, JobConstant.FRESHER);
+            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.FRESHER_FLAG);
 
         } else if (drive.trim().toLowerCase().equals(JobConstant.EXPERIENCE.toLowerCase())) {
-            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.EXPERIENCE_FLAG, pageable);
-            model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + JobConstant.EXPERIENCE);
-            model.addAttribute(CommonConstant.DRIVE, JobConstant.EXPERIENCE);
+            jobs = jobBusiness.getAllJobsByDriveFlag(JobConstant.EXPERIENCE_FLAG);
         }
         assert jobs != null;
-        model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
-        model.addAttribute(JobConstant.JOBS, jobs);
-        model.addAttribute(CommonConstant.CURRENT_PAGE, page);
-        model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
-        return UserConstant.VIEWER + "/ViewJobList";
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
     /**
-     * This controller method is called when we select any qualification, it returns the list of all the jobs for that
-     * individual qualification
+     * This api returns all the jobs by course name
+     * Author : [Gautam Gandhi]
+     * Comment : [refactoring date: 3-06-2022]
      *
-     * @param page
-     * @param model
+     * @param courseName
      * @return
      */
-    @GetMapping("/job/qualification/{courseName}/{page}")
-    public String getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName,
-                                         @PathVariable(CommonConstant.Page) Integer page, Model model) {
-        Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
-        Page<Job> jobs = jobBusiness.getJobsByQualificationName(courseName, pageable);
-        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
-                JobConstant.QUALIFICATION);
-        model.addAttribute(CommonConstant.DRIVE, JobConstant.QUALIFICATION);
-        model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
-        model.addAttribute(JobConstant.JOBS, jobs);
-        model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
-        model.addAttribute(CommonConstant.CURRENT_PAGE, page);
-        return UserConstant.VIEWER + "/ViewJobList";
+    @GetMapping("/find/qualification/{courseName}")
+    public ResponseEntity<List<Job>> getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName) {
+        List<Job> jobs = jobBusiness.getJobsByQualificationName(courseName);
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
     /**
-     * This controller method returns all job in particular location
+     * This api returns all the jobs by city name
+     * Author : [Gautam Gandhi]
+     * Comment : [refactoring date: 3-06-2022]
      *
      * @param city
-     * @param page
-     * @param model
      * @return
      */
-    @GetMapping("/job/location/{city}/{page}")
-    public String getByLocation(@PathVariable(JobConstant.CITY) String city,
-                                @PathVariable(CommonConstant.Page) Integer page, Model model) {
-        Pageable pageable = PageRequest.of(page, CommonConstant.PAGE_SIZE);
-        Page<Job> jobs = jobBusiness.getJobsByLocation(city, pageable);
-
-        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " +
-                JobConstant.LOCATION);
-        model.addAttribute(CommonConstant.DRIVE, JobConstant.LOCATION);
-        model.addAttribute(CommonConstant.YEAR, LocalDate.now().getYear());
-        model.addAttribute(JobConstant.JOBS, jobs);
-        model.addAttribute(CommonConstant.TOATAL_PAGES, jobs.getTotalPages());
-        model.addAttribute(CommonConstant.CURRENT_PAGE, page);
-        return UserConstant.VIEWER + "/ViewJobList";
+    @GetMapping("/find/location/{city}")
+    public ResponseEntity<List<Job>> getByLocation(@PathVariable(JobConstant.CITY) String city) {
+        List<Job> jobs = jobBusiness.getJobsByLocation(city);
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
     /**
      * Scope : [This method returns a job for a particular Id]
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 26-05-2022]
+     *
+     * @param id
+     * @return
      */
-    @GetMapping("/{drive}/{id}")
-    public String getJob(@PathVariable(JobConstant.DRIVE) String drive, @PathVariable(JobConstant.ID) long id,
-                         Model model) {
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Job> getJob(@PathVariable(JobConstant.ID) long id) {
         Job job = jobBusiness.getJob(id);
-        model.addAttribute(CommonConstant.TITLE, CommonConstant.OFFCAMPUSJOBS + " - " + job.getCompanyName()
-                + " " + job.getProfileName());
-        model.addAttribute("year", job.getCreatedAt().getYear());
-        model.addAttribute("homeLogo", CommonConstant.HOMELOGO);
-        model.addAttribute(JobConstant.JOB, job);
-        return UserConstant.VIEWER + "/ViewJob";
+        return new ResponseEntity<>(job, HttpStatus.OK);
     }
 }

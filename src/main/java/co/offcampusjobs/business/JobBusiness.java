@@ -1,20 +1,20 @@
 package co.offcampusjobs.business;
 
 import co.offcampusjobs.model.Job;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 
 public interface JobBusiness {
     public Job saveNewJob(Job job);
 
-    Page<Job> getOffCampusJobs(Pageable pageable);
+    List<Job> getOffCampusJobs();
 
     Job getJob(long id);
 
-    Page<Job> getJobsByQualificationName(String courseName, Pageable pageable);
+    List<Job> getJobsByQualificationName(String courseName);
 
-    Page<Job> getJobsByLocation(String city, Pageable pageable);
+    List<Job> getJobsByLocation(String city);
 
-    Page<Job> getAllJobsByDriveFlag(int driveFlag, Pageable pageable);
+    List<Job> getAllJobsByDriveFlag(int driveFlag);
 }
