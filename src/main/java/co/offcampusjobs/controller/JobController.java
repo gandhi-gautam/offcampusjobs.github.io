@@ -95,7 +95,7 @@ public class JobController {
 
     /**
      * Scope : [This method returns a job for a particular Id]
-     * Author : [Gautam Gandhi]
+     * Author : [Gautam Gandhi]x
      * Comment : [refactoring date: 26-05-2022]
      *
      * @param id
@@ -104,6 +104,9 @@ public class JobController {
     @GetMapping("/find/{id}")
     public ResponseEntity<Job> getJob(@PathVariable(JobConstant.ID) long id) {
         Job job = jobBusiness.getJob(id);
+        if(job == null){
+            throw new RuntimeException("Job not found of id: " + id);
+        }
         return new ResponseEntity<>(job, HttpStatus.OK);
     }
 }

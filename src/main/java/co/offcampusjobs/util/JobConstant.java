@@ -15,6 +15,6 @@ public class JobConstant {
     public static final int EXPERIENCE_FLAG = 2;
 
     public static final String INTERNSHIP = "Internship";
-    public static final String FRESHER = "Fresher";
+        public static final String FRESHER = "Fresher";
     public static final String EXPERIENCE = "Experience";
 }

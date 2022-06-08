@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Job {
+public class Job implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
@@ -69,7 +70,6 @@ public class Job {
     @NotEmpty(message = "Apply Link cannot not be empty")
     @Column(name = "apply_link", length = 1000)
     private String applyLink;
-
 
     @Column(name = "drive_flag", length = 2)
     private int driveFlag;
