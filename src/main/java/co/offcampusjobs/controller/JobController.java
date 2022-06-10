@@ -72,26 +72,27 @@ public class JobController {
      *
      * @param courseName
      * @return
-     */
+     *//*
     @GetMapping("/find/qualification/{courseName}")
     public ResponseEntity<List<Job>> getByQualificationName(@PathVariable(JobConstant.COURSE_NAME) String courseName) {
         List<Job> jobs = jobBusiness.getJobsByQualificationName(courseName);
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
-    /**
+    *//**
      * This api returns all the jobs by city name
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 3-06-2022]
      *
      * @param city
      * @return
-     */
+     *//*
     @GetMapping("/find/location/{city}")
     public ResponseEntity<List<Job>> getByLocation(@PathVariable(JobConstant.CITY) String city) {
         List<Job> jobs = jobBusiness.getJobsByLocation(city);
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
+*/
 
     /**
      * Scope : [This method returns a job for a particular Id]
@@ -104,7 +105,7 @@ public class JobController {
     @GetMapping("/find/{id}")
     public ResponseEntity<Job> getJob(@PathVariable(JobConstant.ID) long id) {
         Job job = jobBusiness.getJob(id);
-        if(job == null){
+        if (job == null) {
             throw new RuntimeException("Job not found of id: " + id);
         }
         return new ResponseEntity<>(job, HttpStatus.OK);
