@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Job implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long jobId;
 
@@ -81,24 +81,16 @@ public class Job implements Serializable {
     private String skills;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JoinTable(name = "job_qualification",
-            joinColumns = @JoinColumn(name = "job_id"),
-            inverseJoinColumns = @JoinColumn(name = "qualification_id"))
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "job_qualification", joinColumns = @JoinColumn(name = "job_id"), inverseJoinColumns = @JoinColumn(name = "qualification_id"))
     private List<Qualification> qualifications = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JoinTable(name = "job_location",
-            joinColumns = @JoinColumn(name = "job_id"),
-            inverseJoinColumns = @JoinColumn(name = "location_id"))
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "job_location", joinColumns = @JoinColumn(name = "job_id"), inverseJoinColumns = @JoinColumn(name = "location_id"))
     private List<Location> locations = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 }

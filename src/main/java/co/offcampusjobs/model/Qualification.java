@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Qualification implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @NaturalId
