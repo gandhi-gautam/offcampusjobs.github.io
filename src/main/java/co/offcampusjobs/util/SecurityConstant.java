@@ -3,7 +3,7 @@ package co.offcampusjobs.util;
 public class SecurityConstant {
     // 10 HRS IN MILLISECOND
     public static final long EXPIRATION_TIME = 36_000_000;
-    public static final String TOKEN_HEADER = "Bearer ";
+    public static final String TOKEN_PREFIX = "Bearer ";
     public static final String JWT_TOKEN_HEADER = "Jwt-Token";
     public static final String TOKEN_CANNOT_BE_VERIFIED = "Token Cannot be Verified";
     public static final String OFF_CAMPUS_JOBS_LLC = "OFF Campus JOBS, LLC";
