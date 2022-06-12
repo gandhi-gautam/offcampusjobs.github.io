@@ -28,20 +28,6 @@ public class JobController {
     private LocationBusiness locationBusiness;
 
     /**
-     * Scope : [This method saves Job when url is '/add' with post mapping]
-     * Author : [Gautam Gandhi]
-     * Comment : [refactoring date: 3-6-2022]
-     */
-    @PostMapping("/add")
-    public ResponseEntity<Job> saveJob(@Valid @RequestBody Job job, BindingResult result) {
-        if (result.hasErrors()) {
-            System.out.println(result);
-            return null;
-        }
-        return new ResponseEntity<>(jobBusiness.saveNewJob(job), HttpStatus.CREATED);
-    }
-
-    /**
      * Scope : [This method returns all the trending jobs based on drive type
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 3-06-2022]
@@ -65,7 +51,7 @@ public class JobController {
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
-/*    *//**
+    /*    *//**
      * This api returns all the jobs by course name
      * Author : [Gautam Gandhi]
      * Comment : [refactoring date: 3-06-2022]
@@ -104,7 +90,7 @@ public class JobController {
     @GetMapping("/find/{id}")
     public ResponseEntity<Job> getJob(@PathVariable(JobConstant.ID) long id) {
         Job job = jobBusiness.getJob(id);
-        if(job == null){
+        if (job == null) {
             throw new RuntimeException("Job not found of id: " + id);
         }
         return new ResponseEntity<>(job, HttpStatus.OK);

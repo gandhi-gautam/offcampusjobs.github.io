@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,12 +29,21 @@ public class User implements Serializable {
     @NotEmpty(message = "Password cannot be empty")
     private String password;
 
-    @NotEmpty(message = "Name cannot not be empty")
-    private String name;
+    @NotEmpty(message = "first Name cannot not be empty")
+    private String firstName;
+
+    @NotEmpty(message = "last Name cannot not be empty")
+    private String lastName;
 
     private boolean enabled;
 
     private String role;
+
+    private Date lastLoginLate;
+
+    private Date lastLoginDateDisplay;
+
+    private Date joinDate;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<Job> jobs = new ArrayList<>();

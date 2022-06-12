@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/job")
+@RequestMapping("/api/v1/user")
 public class UserController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @PostMapping("/creator/add")
+    @PostMapping("/add")
     public ResponseEntity<Job> saveJob(@Valid @RequestBody Job job, BindingResult result) {
         if (result.hasErrors()) {
             System.out.println(result);
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public User registerUser(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<User> registerUser(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
             System.out.println(result);
             return null;
@@ -47,6 +47,6 @@ public class UserController {
         user.setRole("ROLE_CREATOR");
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userBusiness.saveUser(user);
+        return new ResponseEntity<>(userBusiness.saveUser(user), HttpStatus.CREATED);
     }
 }
