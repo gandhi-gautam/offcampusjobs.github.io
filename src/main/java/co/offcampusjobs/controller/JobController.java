@@ -4,14 +4,12 @@ import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.business.LocationBusiness;
 import co.offcampusjobs.business.QualificationBusiness;
 import co.offcampusjobs.model.Job;
-import co.offcampusjobs.util.JobConstant;
+import co.offcampusjobs.util.constant.JobConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
 

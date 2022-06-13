@@ -1,4 +1,4 @@
-package co.offcampusjobs.util;
+package co.offcampusjobs.util.constant;
 
 public class JobConstant {
     public static final String JOB = "job";

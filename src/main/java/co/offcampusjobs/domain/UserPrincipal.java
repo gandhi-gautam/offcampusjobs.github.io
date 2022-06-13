@@ -1,4 +1,4 @@
-package co.offcampusjobs.util;
+package co.offcampusjobs.domain;
 
 import co.offcampusjobs.model.User;
 import lombok.AllArgsConstructor;
@@ -7,26 +7,28 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.stream;
 
 @AllArgsConstructor
-public class CustomUserDetail implements UserDetails {
+public class UserPrincipal implements UserDetails {
+
     private User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getRole());
-        return List.of(simpleGrantedAuthority);
+        return stream(this.user.getAuthorities()).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return this.user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return this.user.getEmail();
     }
 
     @Override
@@ -36,7 +38,7 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.user.isNotLocked();
     }
 
     @Override
@@ -46,6 +48,6 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.user.isActive();
     }
 }

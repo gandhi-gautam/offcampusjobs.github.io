@@ -7,7 +7,7 @@ import co.offcampusjobs.model.Qualification;
 import co.offcampusjobs.service.JobService;
 import co.offcampusjobs.service.LocationService;
 import co.offcampusjobs.service.QualificationService;
-import co.offcampusjobs.util.JobConstant;
+import co.offcampusjobs.util.constant.JobConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -21,6 +21,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, updatable = false)
     private long id;
 
     @NotEmpty(message = "Email Cannot be empty")
@@ -35,15 +36,19 @@ public class User implements Serializable {
     @NotEmpty(message = "last Name cannot not be empty")
     private String lastName;
 
-    private boolean enabled;
+    private String[] roles;
 
-    private String role;
+    private String[] authorities;
 
     private Date lastLoginLate;
 
     private Date lastLoginDateDisplay;
 
     private Date joinDate;
+
+    private boolean isActive;
+
+    private boolean isNotLocked;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<Job> jobs = new ArrayList<>();
