@@ -3,11 +3,17 @@ package co.offcampusjobs.controller;
 import co.offcampusjobs.business.JobBusiness;
 import co.offcampusjobs.business.UserBusiness;
 import co.offcampusjobs.model.Job;
+import co.offcampusjobs.model.JwtResponse;
 import co.offcampusjobs.model.User;
+import co.offcampusjobs.service.impl.CustomUserDetailsService;
+import co.offcampusjobs.util.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,13 +27,19 @@ import javax.validation.Valid;
 public class UserController {
 
     @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
     private JobBusiness jobBusiness;
 
     @Autowired
     private UserBusiness userBusiness;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/add")
     public ResponseEntity<Job> saveJob(@Valid @RequestBody Job job, BindingResult result) {
@@ -39,14 +51,19 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
-            System.out.println(result);
-            return null;
+            throw new RuntimeException("User data body is not in valid format");
         }
-        user.setRole("ROLE_CREATOR");
-        user.setEnabled(true);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return new ResponseEntity<>(userBusiness.saveUser(user), HttpStatus.CREATED);
+        try {
+            this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),
+                    user.getPassword()));
+        } catch (UsernameNotFoundException e) {
+            e.printStackTrace();
+            throw new UsernameNotFoundException("Bad Credentials");
+        }
+        UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(user.getEmail());
+        String token = jwtUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 }

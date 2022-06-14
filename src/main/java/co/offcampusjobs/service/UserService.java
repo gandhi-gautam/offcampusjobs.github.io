@@ -4,4 +4,6 @@ import co.offcampusjobs.model.User;
 
 public interface UserService {
     public User saveUser(User user);
+
+    User getUserByUserName(String username);
 }

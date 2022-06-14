@@ -1,9 +1,7 @@
 package co.offcampusjobs.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -17,6 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class User implements Serializable {
 
     @Id
@@ -36,9 +35,7 @@ public class User implements Serializable {
     @NotEmpty(message = "last Name cannot not be empty")
     private String lastName;
 
-    private String[] roles;
-
-    private String[] authorities;
+    private String role;
 
     private Date lastLoginLate;
 

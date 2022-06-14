@@ -15,4 +15,9 @@ public class UserBusinessImpl implements UserBusiness {
     public User saveUser(User user) {
         return userService.saveUser(user);
     }
+
+    @Override
+    public User getUserByUserName(String username) {
+        return userService.getUserByUserName(username);
+    }
 }
