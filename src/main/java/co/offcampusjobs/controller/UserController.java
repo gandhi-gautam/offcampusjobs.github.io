@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -50,7 +51,7 @@ public class UserController {
         return new ResponseEntity<>(jobBusiness.saveNewJob(job), HttpStatus.CREATED);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/login")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
             throw new RuntimeException("User data body is not in valid format");
@@ -60,7 +61,10 @@ public class UserController {
                     user.getPassword()));
         } catch (UsernameNotFoundException e) {
             e.printStackTrace();
-            throw new UsernameNotFoundException("Bad Credentials");
+            throw new UsernameNotFoundException("Username not found");
+        } catch (BadCredentialsException e){
+            e.printStackTrace();
+            throw new BadCredentialsException("Bad Credentials");
         }
         UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(user.getEmail());
         String token = jwtUtil.generateToken(userDetails);

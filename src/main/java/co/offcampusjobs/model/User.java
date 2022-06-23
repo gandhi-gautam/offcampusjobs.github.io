@@ -29,10 +29,8 @@ public class User implements Serializable {
     @NotEmpty(message = "Password cannot be empty")
     private String password;
 
-    @NotEmpty(message = "first Name cannot not be empty")
     private String firstName;
 
-    @NotEmpty(message = "last Name cannot not be empty")
     private String lastName;
 
     private String role;

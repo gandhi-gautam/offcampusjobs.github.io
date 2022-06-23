@@ -9,6 +9,7 @@ public class SecurityConstant {
     public static final String OFF_CAMPUS_JOBS_ADMINISTRATION = "admin token";
     public static final String OFF_CAMPUS_JOBS_CREATOR = "creator token";
     public static final String AUTHORITIES = "authorities";
+    public static final String UNAUTHORIZED = "UnAuthorized";
     public static final String FORBIDDEN_MESSAGE = "You need to login to access this page";
     public static final String ACCESS_DENIED_MESSAGE = "You do not have permission to access this page";
     public static final String OPTIONS_HTTP_METHOD = "OPTIONS";
