@@ -28,22 +28,22 @@ public class User implements Serializable {
 
     @NotEmpty(message = "Password cannot be empty")
     private String password;
-
-    private String firstName;
-
-    private String lastName;
-
-    private String role;
-
-    private Date lastLoginLate;
-
-    private Date lastLoginDateDisplay;
-
-    private Date joinDate;
-
-    private boolean isActive;
-
-    private boolean isNotLocked;
+//
+//    private String firstName;
+//
+//    private String lastName;
+//
+//    private String role;
+//
+//    private Date lastLoginLate;
+//
+//    private Date lastLoginDateDisplay;
+//
+//    private Date joinDate;
+//
+//    private boolean isActive;
+//
+//    private boolean isNotLocked;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<Job> jobs = new ArrayList<>();
