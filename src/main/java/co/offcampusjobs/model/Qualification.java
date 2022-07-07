@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Qualification implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @NaturalId
@@ -27,14 +27,6 @@ public class Qualification implements Serializable {
     private String qualificationName;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }, mappedBy = "qualifications")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "qualifications")
     private List<Job> jobs = new ArrayList<>();
-
-    public Qualification(String courseName) {
-        this.qualificationName = courseName;
-    }
 }

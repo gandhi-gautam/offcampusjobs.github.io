@@ -25,14 +25,6 @@ public class Location implements Serializable {
     private String locationName;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }, mappedBy = "locations")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "locations")
     private List<Job> jobs = new ArrayList<>();
-
-    public Location(String cityName) {
-        this.locationName = cityName;
-    }
 }

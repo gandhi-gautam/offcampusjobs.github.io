@@ -21,58 +21,33 @@ import java.util.List;
 @AllArgsConstructor
 public class Job implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private long jobId;
+    private long id;
 
-    @NotEmpty(message = "Company Name cannot not be empty")
     @Column(name = "company_name")
     private String companyName;
 
-    @Transient
-    @NotEmpty(message = "Drive Type cannot not be empty")
-    private String driveType;
-
-    @NotEmpty(message = "Profile Name cannot not be empty")
     @Column(name = "profile_name")
     private String profileName;
-
-    @Lob
-    @Transient
-    @NotEmpty(message = "Qualification cannot not be empty")
-    private String qualification;
-
 
     @Column(name = "created_at")
     private LocalDate createdAt;
 
-    @NotEmpty(message = "Image Url cannot not be empty")
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "last_date")
+    private LocalDate lastDate;
 
-    @Transient
-    @NotEmpty(message = "Location cannot not be empty")
-    private String location;
-
-    @NotEmpty(message = "Salary cannot not be empty")
-    private String salary;
-
-    @NotEmpty(message = "Min Experience cannot not be empty")
-    @Size(min = 0, message = "Min Experience cannot be less than 0")
     @Column(name = "min_experience")
     private String minExperience;
 
-    @NotEmpty(message = "Max Experience cannot not be empty")
-    @Size(min = 0, message = "Max Experience cannot be less than 0")
     @Column(name = "max_experience")
     private String maxExperience;
 
-    @NotEmpty(message = "Apply Link cannot not be empty")
-    @Column(name = "apply_link", length = 1000)
-    private String applyLink;
+    @Column(name = "min_salary")
+    private String minSalary;
 
-    @Column(name = "drive_flag", length = 2)
-    private int driveFlag;
+    @Column(name = "max_salary")
+    private String maxSalary;
 
     @Lob
     private String jd;
@@ -80,25 +55,38 @@ public class Job implements Serializable {
     @Lob
     private String skills;
 
+    @Column(name = "apply_link", length = 1000)
+    private String applyLink;
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
+
+    // In teh drive type 0 means = internship, 1 = fresher, 2 = experience
+    @Column(name = "drive_type")
+    private String driveFlag;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JoinTable(name = "job_qualification",
+            cascade = {CascadeType.ALL})
+    @JoinTable(name = "job_qualifications",
             joinColumns = @JoinColumn(name = "job_id"),
             inverseJoinColumns = @JoinColumn(name = "qualification_id"))
     private List<Qualification> qualifications = new ArrayList<>();
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
+            cascade = {CascadeType.ALL})
     @JoinTable(name = "job_location",
             joinColumns = @JoinColumn(name = "job_id"),
             inverseJoinColumns = @JoinColumn(name = "location_id"))
     private List<Location> locations = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToOne
+    private User user;
+
+    @JsonIgnore
+    @OneToOne
+    private Insights insights;
 }
