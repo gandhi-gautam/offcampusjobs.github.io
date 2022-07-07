@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
 @Component
-public class Job {
+public class JobDto {
     private long id;
     private String name;
     private String companyName;
