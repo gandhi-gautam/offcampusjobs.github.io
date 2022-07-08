@@ -19,6 +19,11 @@ public class TrendingJobController {
     @Autowired
     private JobBusiness jobBusiness;
 
+    /**
+     * This api is called when user is searching for trending jobs, it returns all the job based on there type
+     * @param driveType
+     * @return
+     */
     @GetMapping("/trendingjobs/{driveType}")
     public ResponseEntity<List<JobDto>> trendingJobs(@PathVariable("driveType") String driveType){
         List<JobDto> jobDtos = null;

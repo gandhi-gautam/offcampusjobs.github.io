@@ -14,6 +14,11 @@ public class JobBusinessImpl implements JobBusiness {
     @Autowired
     private JobService jobService;
 
+    /**
+     * This method return list of jobs based on trending type, It also converts to drive type based on drive flag
+     * @param driveType
+     * @return
+     */
     @Override
     public List<JobDto> getTrendingJob(String driveType) {
 
@@ -25,6 +30,11 @@ public class JobBusinessImpl implements JobBusiness {
         return jobDtos;
     }
 
+    /**
+     * This method converts drive type to drive flag
+     * @param driveType
+     * @return
+     */
     private int getDriveFlag(String driveType) {
         if(driveType.equals("internship")){
             return 0;
@@ -35,6 +45,11 @@ public class JobBusinessImpl implements JobBusiness {
         }
     }
 
+    /**
+     * This method converts drive flag to drive type
+     * @param driveFlag
+     * @return
+     */
     private String getDriveType(int driveFlag) {
         if(driveFlag == 0 ){
             return "internship";

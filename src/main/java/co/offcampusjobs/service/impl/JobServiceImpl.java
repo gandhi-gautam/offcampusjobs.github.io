@@ -18,6 +18,11 @@ public class JobServiceImpl implements JobService {
     @Autowired
     private JobRepository jobRepository;
 
+    /**
+     * This method returns trending jobs based on drive flag, fetches data from the database
+     * @param driveFlag
+     * @return
+     */
     @Override
     public List<JobDto> getTrendingJob(int driveFlag) {
         List<Job> jobs = jobRepository.getByDriveFlag(driveFlag);
@@ -29,6 +34,12 @@ public class JobServiceImpl implements JobService {
         return null;
     }
 
+    /**
+     * This method convert Job class to JobDto class
+     * @param job
+     * @param driveFlag
+     * @return
+     */
     private JobDto convertJobEntityToDto(Job job, int driveFlag) {
         JobDto jobDto = new JobDto();
         jobDto.setId(job.getId());
@@ -49,6 +60,11 @@ public class JobServiceImpl implements JobService {
         return jobDto;
     }
 
+    /**
+     * This method extract all the qualifications from the list of qualifications
+     * @param qualifications
+     * @return
+     */
     private String extractQualifications(List<Qualification> qualifications) {
         String qualification = "";
         for(Qualification degree : qualifications){
@@ -61,6 +77,11 @@ public class JobServiceImpl implements JobService {
         return qualification;
     }
 
+    /**
+     * This method extract all the locations from the list of locations
+     * @param locations
+     * @return
+     */
     private String extractLocations(List<Location> locations) {
         String location = "";
         for(Location city : locations) {
