@@ -1,7 +1,8 @@
 package co.offcampusjobs.service;
 
+import co.offcampusjobs.dto.UserDto;
 import co.offcampusjobs.model.User;
 
 public interface UserService {
-    User saveUser(User user);
+    UserDto saveUser(UserDto userDto);
 }

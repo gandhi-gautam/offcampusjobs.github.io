@@ -12,28 +12,15 @@ public class UserBusinessImpl implements UserBusiness {
     @Autowired
     private UserService userService;
 
-
+    /**
+     * This method calls the service layer register method to save the user in the database
+     * @param userDto
+     * @return
+     */
     @Override
     public UserDto register(UserDto userDto) {
-        User user = convertUserDtoToEntity(userDto);
-        user = userService.saveUser(user);
-        return convertUserEntityToDto(user);
+        return  userService.saveUser(userDto);
     }
 
-    private UserDto convertUserEntityToDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        return userDto;
-    }
 
-    private User convertUserDtoToEntity(UserDto userDto) {
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        return user;
-    }
 }

@@ -20,8 +20,17 @@ public class RegisterController {
     @Autowired
     private UserBusiness userBusiness;
 
+    /**
+     * This method lets user register themselves, it need user data to save in the database
+     * @param userDto
+     * @return
+     */
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
+        if(userDto == null) {
+            log.error("User Data not recieved");
+            throw new UserNotSavedException("User Not Found");
+        }
         UserDto registerUser = userBusiness.register(userDto);
         if(registerUser == null){
             log.error(userDto.getName() + "not able to register");
