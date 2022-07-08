@@ -1,10 +1,14 @@
 package co.offcampusjobs.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
 @Component
+@Getter
+@Setter
 public class JobDto {
     private long id;
     private String name;
@@ -18,6 +22,7 @@ public class JobDto {
     private String salary;
     private String jd;
     private String driveType;
+    private int driveFlag;
     private String imageUrl;
     private String applyLink;
 }

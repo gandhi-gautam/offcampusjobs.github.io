@@ -62,7 +62,7 @@ public class Job implements Serializable {
     private String imageUrl;
 
 
-    // In teh drive type 0 means = internship, 1 = fresher, 2 = experience
+    // In the drive type 0 means = internship, 1 = fresher, 2 = experience
     @Column(name = "drive_type")
     private String driveFlag;
 
